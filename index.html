@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deutsch 10 – Lernmodul Sprache & Rechtschreibung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f3ec; --card:#fffdf8; --ink:#1e2430; --muted:#5d6472; --line:#e3ddd0;
+  --accent:#0f6b63; --accent-soft:#e2f1ee;
+  --a:#2f7d4f; --a-soft:#e5f3ea; --m:#a8650f; --m-soft:#fbefdc; --e:#5b3fb0; --e-soft:#ece6fb;
+  --ok:#1f7a45; --ok-soft:#dff3e6; --bad:#b4332b; --bad-soft:#fbe3e0; --warn:#b26b00; --warn-soft:#fff1d6;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;line-height:1.2;margin:0 0 .4em}
+h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800}
+h2{font-size:1.45rem;font-weight:800}
+h3{font-size:1.15rem;font-weight:600}
+h4{margin:1.1em 0 .4em;font-size:1rem}
+a{color:var(--accent)}
+.top{position:sticky;top:0;z-index:10;background:rgba(246,243,236,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:.5rem clamp(1rem,4vw,2.5rem) .55rem}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.4rem}
+.topicbar{display:flex;flex-wrap:wrap;gap:.3rem}
+.topicbar a{display:inline-flex;align-items:center;gap:.3rem;font-size:.8rem;font-weight:700;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:99px;padding:.18rem .6rem .18rem .3rem;white-space:nowrap}
+.topicbar a b{display:inline-grid;place-items:center;min-width:1.35rem;height:1.35rem;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-size:.75rem}
+.topicbar a:hover{border-color:var(--accent)}
+.topicbar a.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.topicbar a.on b{background:#fff}
+.topicbar a.done b{background:var(--ok);color:#fff}
+.topicbar a.test{background:var(--e-soft);border-color:#d3c6f3;color:var(--e)}
+.topicbar a.test.on{background:var(--e);color:#fff}
+#tasks{scroll-margin-top:130px}
+.time{font-size:.82rem;color:var(--muted)}
+.result{background:#fff;border:2px solid var(--e);border-radius:var(--radius);padding:1.1rem 1.2rem;margin:1.5rem 0}
+.result table{border-collapse:collapse;width:100%;margin:.6rem 0}
+.result td,.result th{border-bottom:1px solid var(--line);padding:.4rem .5rem;text-align:left}
+.result .big{font-family:"Fraunces",serif;font-size:2rem;font-weight:800;color:var(--e)}
+.tcard.testcard{border:2px solid var(--e);background:var(--e-soft)}
+.tcard.testcard .nr{color:var(--e)}
+
+#topstat{display:flex;align-items:center;gap:.55rem;font-size:.88rem;color:var(--ink)}
+#topstat .xpbar{width:110px;height:8px;background:#e6dfd1;border-radius:9px;overflow:hidden}
+#topstat .xpbar i{display:block;height:100%;background:linear-gradient(90deg,#f5a524,#e2552d);border-radius:9px;transition:width .6s}
+#topstat .combo{color:#e2552d;font-weight:700}
+.career{display:grid;grid-template-columns:minmax(230px,1fr) 2fr;gap:1rem;background:linear-gradient(135deg,#1e2430,#2c3346);color:#fff;border-radius:18px;padding:1.2rem 1.3rem;margin:1rem 0 1.6rem}
+.career h2{color:#fff;font-size:1.15rem;margin:0 0 .5rem}
+.career .rk{font-size:2.6rem;line-height:1}
+.career .rn{font-family:"Fraunces",serif;font-size:1.6rem;font-weight:800}
+.career .xpline{font-size:.9rem;opacity:.85;margin:.2rem 0 .5rem}
+.career .bigbar{height:12px;background:rgba(255,255,255,.15);border-radius:9px;overflow:hidden}
+.career .bigbar i{display:block;height:100%;background:linear-gradient(90deg,#f5a524,#e2552d)}
+.ranks{display:flex;gap:.25rem;margin-top:.6rem;font-size:.75rem;flex-wrap:wrap;opacity:.9}
+.ranks span{padding:.1rem .45rem;border-radius:99px;background:rgba(255,255,255,.1)}
+.ranks span.cur{background:#f5a524;color:#1e2430;font-weight:700}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:.5rem}
+.badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:.45rem .3rem;text-align:center;font-size:.72rem;line-height:1.2}
+.badge .bi{font-size:1.7rem;display:block;margin-bottom:.2rem}
+.badge.off{opacity:.35;filter:grayscale(1)}
+.badge.trophy{border-color:#f5a524;background:rgba(245,165,36,.15)}
+.career .cta{margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;font-size:.85rem}
+.career .btn{background:#f5a524;color:#1e2430}
+.badgegoal{display:flex;gap:.6rem;align-items:center;background:#fff;border:1px dashed #d8c9a3;border-radius:12px;padding:.55rem .85rem;font-size:.93rem;margin:.6rem 0}
+.badgegoal .bi{font-size:1.6rem}
+.badgegoal.got{border:2px solid #f5a524;background:#fff8e6}
+.tcard .bdg{position:absolute;top:.7rem;right:.8rem;font-size:1.5rem}
+.tcard{position:relative}
+#toasts{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);display:flex;flex-direction:column;gap:.5rem;align-items:center;z-index:50;pointer-events:none}
+.toast{background:#1e2430;color:#fff;border-radius:14px;padding:.6rem 1.1rem;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:pop .45s cubic-bezier(.2,1.6,.4,1);transition:opacity .4s,transform .4s}
+.toast.xp{background:#0f6b63}
+.toast.combo{background:linear-gradient(90deg,#e2552d,#f5a524)}
+.toast.badge,.toast.rank,.toast.trophy{background:linear-gradient(135deg,#5b3fb0,#2c3346);font-size:1.1rem;padding:.9rem 1.4rem}
+.toast.out{opacity:0;transform:translateY(10px)}
+@keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.cert{max-width:760px;margin:1rem auto;background:#fffdf6;border:10px double #c9a43b;border-radius:6px;padding:2.2rem 2rem;text-align:center;box-shadow:0 10px 40px rgba(30,36,48,.12)}
+.cert .kicker{letter-spacing:.3em;text-transform:uppercase;font-size:.8rem;color:#8a6d1d;font-weight:700}
+.cert h1{font-size:clamp(2.2rem,6vw,3.4rem);margin:.3rem 0 .2rem;color:#2c3346}
+.cert .nm{font:inherit;font-family:"Fraunces",serif;font-size:1.8rem;font-weight:800;text-align:center;border:0;border-bottom:2px solid #c9a43b;background:transparent;width:min(100%,420px);margin:1rem auto .3rem;display:block;color:var(--ink)}
+.cert .nm:focus{outline:none;background:#fff6dc}
+.cert .tro{font-size:4.2rem;line-height:1;margin:.8rem 0 .2rem}
+.cert .facts{display:flex;justify-content:center;gap:1.6rem;flex-wrap:wrap;margin:1rem 0}
+.cert .facts div{font-size:.85rem;color:var(--muted)}
+.cert .facts b{display:block;font-size:1.2rem;color:var(--ink)}
+.cert .bdgs{font-size:1.6rem;letter-spacing:.2rem;margin:.4rem 0}
+.cert table{margin:1rem auto 0;border-collapse:collapse;font-size:.85rem;text-align:left}
+.cert td,.cert th{padding:.2rem .6rem;border-bottom:1px solid #eee3c4}
+.cert th{font-size:.75rem;color:var(--muted)}
+.tstat{margin-left:auto;font-weight:700;border-radius:99px;padding:.05rem .55rem}
+.tstat.first{background:var(--ok-soft);color:var(--ok)}.tstat.second{background:var(--warn-soft);color:var(--warn)}.tstat.none{background:#eee;color:var(--muted)}.tstat.warn{background:var(--bad-soft);color:var(--bad)}.tstat.done{background:var(--e-soft);color:var(--e)}
+.tbody.locked{pointer-events:none;opacity:.8}
+.cert .date{margin-top:1.2rem;font-size:.85rem;color:var(--muted)}
+
+.arena{position:relative;overflow:hidden;border-radius:22px;margin:.6rem 0 1.6rem;color:#fff;background:radial-gradient(circle at 85% 15%,rgba(245,165,36,.35),transparent 40%),radial-gradient(circle at 10% 90%,rgba(91,63,176,.55),transparent 45%),linear-gradient(135deg,#141824,#262d42 60%,#1b2a3a)}
+.arena::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(180deg,transparent,#000 40%,transparent)}
+.arena-in{position:relative;padding:clamp(1.6rem,4vw,2.8rem)}
+.arena .kick{display:inline-block;font-size:.78rem;letter-spacing:.25em;text-transform:uppercase;font-weight:700;color:#f5a524;border:1px solid rgba(245,165,36,.5);border-radius:99px;padding:.2rem .7rem;margin-bottom:.9rem}
+.arena h1{color:#fff;font-size:clamp(2rem,5vw,3.3rem);max-width:22ch}
+.tcard .cat{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:-.2rem}
+.arena h1 span{background:linear-gradient(90deg,#f5a524,#ff6b3d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.arena .lead{max-width:58ch;font-size:1.08rem;opacity:.92;margin:.6rem 0 1.2rem}
+.arena .stats{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.4rem}
+.arena .stats div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:.45rem .8rem;font-size:.82rem;opacity:.95}
+.arena .stats b{display:block;font-family:"Fraunces",serif;font-size:1.5rem;color:#f5a524;line-height:1.1}
+.arena .ctas{display:flex;flex-wrap:wrap;align-items:center;gap:1rem}
+.play{display:inline-block;background:linear-gradient(90deg,#f5a524,#ff6b3d);color:#1e2430;font-weight:800;font-size:1.15rem;text-decoration:none;padding:.8rem 1.6rem;border-radius:14px;box-shadow:0 0 0 0 rgba(245,165,36,.6);animation:pulse 2.2s infinite}
+.play:hover{filter:brightness(1.08)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,165,36,.55)}70%{box-shadow:0 0 0 16px rgba(245,165,36,0)}100%{box-shadow:0 0 0 0 rgba(245,165,36,0)}}
+.arena .nxt{font-size:.92rem;opacity:.85}
+.floaters span{position:absolute;font-size:2.2rem;opacity:.22;animation:float 7s ease-in-out infinite}
+.floaters span:nth-child(1){right:8%;top:14%}
+.floaters span:nth-child(2){right:24%;top:62%;animation-delay:-1.5s}
+.floaters span:nth-child(3){right:6%;top:58%;font-size:3.2rem;animation-delay:-3s;opacity:.3}
+.floaters span:nth-child(4){right:30%;top:10%;animation-delay:-4.5s}
+.floaters span:nth-child(5){right:16%;top:36%;animation-delay:-2.2s}
+.floaters span:nth-child(6){right:38%;top:78%;animation-delay:-5.5s}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+@media (prefers-reduced-motion:reduce){.floaters span,.play{animation:none}}
+.sechead{margin:1.8rem 0 .6rem}
+.sechead h2{margin:0 0 .2rem}
+.sechead p{margin:0;color:var(--muted)}
+.steps4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem}
+.steps4>div{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;font-size:.93rem;color:var(--muted)}
+.steps4 b{display:block;color:var(--ink);font-size:1.02rem;margin:.3rem 0 .2rem}
+.steps4 .n{display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:10px;background:var(--accent);color:#fff;font-weight:800}
+.xpbox{display:flex;gap:1.2rem;align-items:flex-start;background:#fff8e6;border:2px solid #f5c76a;border-radius:18px;padding:1.2rem 1.3rem;margin:1rem 0 0}
+.xpicon{flex:0 0 auto;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:800;font-size:1.5rem;color:#fff;background:linear-gradient(135deg,#f5a524,#e2552d);box-shadow:0 6px 16px rgba(226,85,45,.3)}
+.xpbox h3{margin:.1rem 0 .4rem;font-size:1.25rem}
+.xpbox p{margin:0 0 .5rem}
+.xpbox ul{list-style:none;padding:0;margin:0 0 .8rem}
+.xpbox li{margin:.25rem 0}
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem}
+.ladder div{background:#fff;border:1px solid #f0d9a4;border-radius:12px;padding:.35rem .6rem;text-align:center;min-width:84px}
+.ladder span{display:block;font-size:1.3rem}
+.ladder b{display:block;font-size:.85rem}
+.ladder small{color:var(--muted);font-size:.72rem}
+.ladder i{font-style:normal;color:#d19a2a;font-weight:800}
+@media (max-width:600px){.xpbox{flex-direction:column}.floaters{display:none}}
+@media (max-width:700px){.career{grid-template-columns:1fr}#topstat .xpbar{width:60px}}
+@media (max-width:700px){.topicbar{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.2rem}}
+.brand{font-family:"Fraunces",serif;font-weight:800;text-decoration:none;color:var(--ink);font-size:1.1rem}
+.brand span{color:var(--accent)}
+#topstat{font-size:.9rem;color:var(--muted)}
+main{max-width:980px;margin:0 auto;padding:1.5rem clamp(1rem,4vw,2.5rem) 5rem}
+.hero{padding:1.2rem 0 1rem}
+.hero p{max-width:62ch;color:var(--muted);font-size:1.05rem}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem;margin:1.2rem 0 2rem}
+.lvcard{border-radius:var(--radius);padding:1rem 1.1rem;border:1.5px solid}
+.lvcard b{display:block;font-size:1.05rem;margin-bottom:.2rem}
+.lvcard.a{background:var(--a-soft);border-color:#b9dfc8}.lvcard.a b{color:var(--a)}
+.lvcard.m{background:var(--m-soft);border-color:#ecd3a8}.lvcard.m b{color:var(--m)}
+.lvcard.e{background:var(--e-soft);border-color:#d3c6f3}.lvcard.e b{color:var(--e)}
+.group{margin:1.8rem 0 .7rem;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.9rem}
+.tcard{display:flex;flex-direction:column;gap:.35rem;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;text-decoration:none;color:inherit;transition:transform .12s,box-shadow .12s}
+.tcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(30,36,48,.08)}
+.tcard .nr{font-family:"Fraunces",serif;font-weight:800;color:var(--accent);font-size:1.4rem}
+.tcard h3{margin:0}
+.tcard p{margin:0;color:var(--muted);font-size:.93rem}
+.bar{height:7px;background:#ece6da;border-radius:9px;overflow:hidden;margin-top:.5rem}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:9px}
+.prog{font-size:.82rem;color:var(--muted);display:flex;justify-content:space-between;gap:.5rem}
+.chip{display:inline-block;font-size:.78rem;padding:.08rem .55rem;border-radius:99px;font-weight:700}
+.chip.a{background:var(--a-soft);color:var(--a)}.chip.m{background:var(--m-soft);color:var(--m)}.chip.e{background:var(--e-soft);color:var(--e)}
+.back{display:inline-flex;align-items:center;gap:.3rem;text-decoration:none;font-weight:700;margin-bottom:1rem}
+.sub{color:var(--muted);margin-top:-.2rem}
+.chooser{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;margin:1.2rem 0}
+.chooser p{margin:.1rem 0 .7rem;font-weight:700}
+.seg{display:flex;flex-wrap:wrap;gap:.5rem}
+.seg button{flex:1 1 200px;font:inherit;text-align:left;padding:.7rem .9rem;border-radius:12px;border:2px solid var(--line);background:#fff;cursor:pointer;line-height:1.3}
+.seg button small{display:block;color:var(--muted);font-size:.82rem}
+.seg button.a.on{border-color:var(--a);background:var(--a-soft)}
+.seg button.m.on{border-color:var(--m);background:var(--m-soft)}
+.seg button.e.on{border-color:var(--e);background:var(--e-soft)}
+.seg button:hover{border-color:#bdb5a5}
+.seg button:disabled{cursor:not-allowed;opacity:.6}
+.pleasechoose{padding:1.2rem;border:2px dashed var(--line);border-radius:var(--radius);text-align:center;color:var(--muted)}
+.info{background:#fff;border-left:6px solid var(--accent);border-radius:var(--radius);padding:0;margin:1.2rem 0;box-shadow:0 1px 0 var(--line)}
+.info>summary{cursor:pointer;padding:.9rem 1.1rem;font-weight:700;font-family:"Fraunces",serif;font-size:1.1rem;list-style:none}
+.info>summary::-webkit-details-marker{display:none}
+.info>summary::before{content:"ℹ️ "}
+.info>summary::after{content:" ▾";color:var(--muted)}
+.info[open]>summary::after{content:" ▴"}
+.info .inner{padding:0 1.2rem 1.1rem}
+.info table,.tbl{border-collapse:collapse;width:100%;margin:.6rem 0;font-size:.95rem}
+.info th,.info td{border:1px solid var(--line);padding:.4rem .55rem;text-align:left;vertical-align:top}
+.info th{background:var(--accent-soft)}
+.example{padding:.5rem .8rem;border-radius:10px;margin:.4rem 0;font-size:.95rem}
+.example.bad{background:var(--bad-soft)}.example.bad::before{content:"✘ ";color:var(--bad);font-weight:700}
+.example.good{background:var(--ok-soft)}.example.good::before{content:"✔ ";color:var(--ok);font-weight:700}
+.merke{background:var(--warn-soft);border-radius:10px;padding:.6rem .85rem;margin:.7rem 0 0}
+.steps{background:var(--a-soft);border:1.5px solid #b9dfc8;border-radius:var(--radius);padding:.8rem 1.1rem;margin:1rem 0}
+.steps b.t{color:var(--a)}
+.steps ol{margin:.4rem 0 0;padding-left:1.3rem}
+.task{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.1rem 1.2rem;margin:1.1rem 0}
+.thead{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;margin-bottom:.45rem;font-size:.82rem}
+.tnum{font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
+.ttype{background:#efe9dd;border-radius:99px;padding:.05rem .55rem;color:var(--muted)}
+.tscore{margin-left:auto;color:var(--muted)}
+.prompt{margin:.2rem 0 .7rem}
+.help{background:var(--a-soft);border-radius:10px;padding:.55rem .8rem;margin:.5rem 0 .8rem;font-size:.95rem}
+details.help{background:var(--m-soft)}
+details.help summary{cursor:pointer;font-weight:700;color:var(--m)}
+details.help div{margin-top:.35rem}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:.55rem 1rem;cursor:pointer;background:var(--accent);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn.small{padding:.3rem .7rem;font-size:.9rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.fb{margin-top:.8rem;border-radius:10px;padding:0;font-weight:700}
+.fb.show{padding:.6rem .85rem}
+.fb.ok{background:var(--ok-soft);color:var(--ok)}
+.fb.mid{background:var(--warn-soft);color:var(--warn)}
+.fb.bad{background:var(--bad-soft);color:var(--bad)}
+/* MC */
+.mcq{margin:.5rem 0 1rem}
+.mcq .q{margin:.2rem 0 .4rem;font-weight:700}
+.opts{display:flex;flex-direction:column;gap:.35rem}
+.opt{display:flex;gap:.55rem;align-items:flex-start;padding:.45rem .7rem;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;background:#fff}
+.opt input{margin-top:.3rem}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.expl{font-size:.93rem;margin:.35rem 0 0;color:var(--muted)}
+.minihint{font-size:.9rem;color:var(--a);margin:.35rem 0 0}
+/* Gap */
+.gaptext{line-height:2.3}
+.gaptext p{margin:.2rem 0}
+.gap{font:inherit;font-size:.98rem;border:0;border-bottom:2px solid #a9a191;background:#fbf8f1;border-radius:6px 6px 0 0;padding:.05rem .35rem;min-width:4.5rem;color:var(--ink)}
+.gap:focus{outline:2px solid var(--accent);outline-offset:1px}
+.gap.right{border-color:var(--ok);background:var(--ok-soft)}
+.gap.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.sol{font-size:.85rem;color:var(--ok);font-weight:700;margin-left:.2rem}
+.bank{display:flex;flex-wrap:wrap;gap:.4rem;padding:.6rem;border:1.5px dashed var(--line);border-radius:10px;margin-bottom:.8rem}
+.bank span.lbl{font-size:.85rem;color:var(--muted);width:100%}
+.bank button{font:inherit;font-size:.92rem;border:1px solid #d8d0bf;background:#fff;border-radius:8px;padding:.15rem .55rem;cursor:pointer}
+.bank button.used{opacity:.4}
+/* Comma */
+.csent{display:flex;flex-wrap:wrap;align-items:baseline;padding:.55rem .4rem;border-bottom:1px solid var(--line);line-height:2}
+.csent .cnt{font-size:.8rem;color:var(--muted);margin-left:.6rem;align-self:center}
+.csent .num{font-weight:700;color:var(--muted);margin-right:.5rem;font-size:.85rem}
+.slot{font:inherit;width:18px;height:1.6em;border:0;background:transparent;cursor:pointer;border-radius:5px;padding:0;position:relative;color:var(--ink);font-weight:700;font-size:1.15rem;line-height:1}
+.slot::after{content:"";position:absolute;left:50%;top:60%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#cfc7b6}
+.slot:hover{background:var(--accent-soft)}
+.slot.on::after,.slot.miss::after,.slot.extra::after{display:none}
+.slot.on{color:var(--accent)}
+.slot.ok{color:var(--ok);background:var(--ok-soft)}
+.slot.miss{color:var(--bad);background:var(--bad-soft)}
+.slot.extra{color:var(--bad);background:var(--bad-soft);text-decoration:line-through}
+.slot.done.ok::before{content:""}
+.cw{white-space:nowrap}
+.cmark{display:block;width:100%;font-size:.85rem;margin-top:.1rem}
+/* Errors */
+.etext{line-height:2.1;padding:.6rem .8rem;background:#fff;border:1px solid var(--line);border-radius:10px}
+.unit{cursor:pointer;border-radius:5px;padding:.05rem .12rem;transition:background .1s}
+.unit:hover{background:#f0ebe0}
+.unit.mk{background:#ffe2a8;box-shadow:inset 0 -2px 0 var(--warn)}
+.unit.found{background:var(--ok-soft);box-shadow:inset 0 -2px 0 var(--ok)}
+.unit.missed{background:var(--warn-soft);box-shadow:inset 0 -2px 0 var(--warn)}
+.unit.falsemk{background:var(--bad-soft);text-decoration:line-through}
+.unit sup{font-size:.75rem;color:var(--ok);font-weight:700;margin-left:.15rem}
+.legend{font-size:.88rem;color:var(--muted);margin-top:.5rem}
+.legend span{display:inline-block;margin-right:.8rem}
+/* Sort */
+.srow{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--line)}
+.srow .it{flex:1 1 280px}
+.pills{display:flex;flex-wrap:wrap;gap:.35rem}
+.pill{font:inherit;font-size:.86rem;border:1.5px solid #d8d0bf;background:#fff;border-radius:99px;padding:.2rem .65rem;cursor:pointer}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pill.right{background:var(--ok);border-color:var(--ok);color:#fff}
+.pill.wrong{background:var(--bad);border-color:var(--bad);color:#fff}
+.pill.should{border-color:var(--ok);color:var(--ok);border-style:dashed}
+/* Order */
+.pool,.answer{display:flex;flex-direction:column;gap:.4rem;min-height:3rem;padding:.6rem;border-radius:10px}
+.pool{border:1.5px dashed var(--line)}
+.answer{background:#fff;border:1.5px solid var(--line);margin-bottom:.6rem}
+.answer:empty::before{content:"Klicke unten die Sätze in der richtigen Reihenfolge an …";color:var(--muted);font-size:.92rem}
+.piece{font:inherit;text-align:left;border:1px solid #d8d0bf;background:#fbf8f1;border-radius:9px;padding:.45rem .7rem;cursor:pointer}
+.piece.fixed{cursor:default;opacity:.85;border-style:dashed}
+.piece.right{background:var(--ok-soft);border-color:var(--ok)}
+.piece.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.olabel{font-size:.85rem;color:var(--muted);margin:.2rem 0}
+/* Transform / write / fix */
+.titem{margin:.4rem 0 1rem}
+.src{background:#fbf8f1;border-left:4px solid #d2c8b3;padding:.45rem .7rem;border-radius:0 8px 8px 0;margin-bottom:.35rem}
+textarea,.tin{font:inherit;width:100%;border:1.5px solid #d4ccba;border-radius:10px;padding:.55rem .7rem;background:#fff;color:var(--ink)}
+textarea{min-height:9rem;resize:vertical;line-height:1.6}
+textarea:focus,.tin:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.tin.right{border-color:var(--ok);background:var(--ok-soft)}
+.tin.wrong{border-color:var(--warn);background:var(--warn-soft)}
+.model{background:var(--ok-soft);border-radius:10px;padding:.6rem .85rem;margin-top:.5rem;font-size:.95rem}
+.model b{color:var(--ok)}
+.starters{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 .6rem}
+.starters button{font:inherit;font-size:.88rem;border:1px dashed var(--a);color:var(--a);background:#fff;border-radius:8px;padding:.2rem .55rem;cursor:pointer}
+.analysis{margin-top:.7rem;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.6rem .85rem;font-size:.95rem}
+.analysis ul{margin:.3rem 0;padding-left:1.1rem}
+.analysis li.ok::marker{content:"✔ ";color:var(--ok)}
+.analysis li.no::marker{content:"✘ ";color:var(--bad)}
+.analysis li.inf::marker{content:"• "}
+.check{margin-top:.6rem}
+.check label{display:flex;gap:.5rem;align-items:flex-start;margin:.2rem 0;font-size:.95rem}
+.diff{line-height:2;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.5rem .8rem;margin-top:.5rem}
+.diff .x{background:var(--bad-soft);box-shadow:inset 0 -2px 0 var(--bad);border-radius:4px;padding:0 .1rem}
+.src-src{font-style:italic}
+.reset-wrap{margin-top:3rem;text-align:center;font-size:.9rem;color:var(--muted)}
+.foot-nav{display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;flex-wrap:wrap}
+.foot-nav a{font-weight:700;text-decoration:none}
+@media (pointer:coarse){
+.slot{width:30px;height:2.1em;margin:0 1px}
+.slot::after{width:6px;height:6px;margin-left:-3px;background:#bfb6a3}
+.csent{line-height:2.4}
+.unit{padding:.2rem .3rem;margin:.05rem 0;display:inline-block;line-height:1.5}
+.pill{padding:.45rem .85rem;font-size:.92rem}
+.piece{padding:.7rem .9rem}
+.opt{padding:.7rem .9rem}
+.opt input{transform:scale(1.3);margin-right:.2rem}
+.btn{padding:.7rem 1.15rem}
+.gap{min-height:2.1em;font-size:1rem}
+.bank button,.starters button{padding:.4rem .7rem}
+.topicbar a{padding:.35rem .75rem .35rem .4rem}
+.topicbar{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:.25rem;scrollbar-width:none}
+.topicbar::-webkit-scrollbar{display:none}
+}
+*{-webkit-tap-highlight-color:transparent}
+.slot,.unit,.pill,.piece{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+@media (max-width:600px){body{font-size:16px}.task{padding:.9rem}.slot{width:16px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="toprow"><a href="#" class="brand">Deutsch 10 · <span>Lernmodul</span></a><span id="topstat"></span></div><nav id="topicbar" class="topicbar" aria-label="Alle Themen"></nav></header>
+<main id="app"></main>
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+/* ===================== INHALTE ===================== */
+const CATS={GK:'Groß-/Kleinschreibung',GZ:'Getrennt-/Zusammenschreibung',DD:'das/dass',S:'s-Laute (s, ss, ß)',D:'Dehnung/Schärfung (ie, h, Doppelkonsonant)',W:'Wortstamm/Ableitung'};
+const CONNECTORS=['deshalb','daher','außerdem','zudem','trotzdem','dennoch','jedoch','allerdings','folglich','denn','weil','obwohl','zum beispiel','darüber hinaus','somit','also','dabei','danach','anschließend','schließlich','zuerst','dann','einerseits','andererseits','aber','nämlich','deswegen','zwar'];
+const KONJ=['sei','seien','seiest','habe','hätte','hätten','könne','könnten','müsse','dürfe','solle','wolle','werde','würde','würden','gebe','gäbe','spiele','führe','finde','komme','wisse','möge','lasse','brauche','trainiere','mache','gehöre','hält','halte','bringe','verherrliche','zeige'];
+
+const TOPICS=[
+/* ---------- 1 ---------- */
+{id:'schachtelsaetze',title:'Schachtelsätze vermeiden',short:'Lange, verschachtelte Sätze erkennen und verständlich umformulieren.',group:'Stil & Textgestaltung',
+info:`<p>Ein <b>Schachtelsatz</b> ist ein sehr langer Satz, in dem mehrere Nebensätze ineinander „verschachtelt“ sind. Oft steht das wichtigste Verb des Hauptsatzes erst ganz am Ende – bis dahin haben Lesende den Faden verloren.</p>
+<div class="example bad">Der Spieler, der, weil er, als das Turnier begann, krank war, nicht trainieren konnte, verlor.</div>
+<div class="example good">Als das Turnier begann, war der Spieler krank. Deshalb konnte er nicht trainieren und verlor.</div>
+<h4>So entschachtelst du Sätze</h4>
+<ol><li><b>Kern finden:</b> Wer macht was? Suche Subjekt und Prädikat des Hauptsatzes.</li>
+<li><b>Aufteilen:</b> Mache aus Nebensätzen eigene Hauptsätze.</li>
+<li><b>Ordnen:</b> Erzähle in zeitlicher oder logischer Reihenfolge.</li>
+<li><b>Verknüpfen:</b> Verbinde die Sätze mit Konnektoren wie <i>deshalb, danach, außerdem, trotzdem</i>, damit der Zusammenhang erhalten bleibt.</li>
+<li><b>Nebensätze nicht einschieben:</b> Wenn du einen Nebensatz behältst, stelle ihn vor oder hinter den Hauptsatz – nicht mitten hinein.</li></ol>
+<p class="merke"><b>Faustregel:</b> Sätze mit mehr als ca. 20 Wörtern solltest du prüfen. Aber Vorsicht: Nur ganz kurze Sätze wirken abgehackt – die Mischung macht’s.</p>`,
+steps:`<ol><li>Lies den Satz langsam und unterstreiche im Kopf: <b>Wer</b> tut <b>was</b>?</li><li>Schreibe jede Information als eigenen kurzen Satz auf.</li><li>Bringe die Sätze in eine sinnvolle Reihenfolge.</li><li>Füge Verbindungswörter ein (<i>danach, deshalb, außerdem</i>).</li></ol>`,
+tasks:[
+{type:'mc',title:'Welcher Satz ist leichter zu verstehen?',prompt:'Entscheide jeweils, welche Version besser lesbar ist.',
+ items:[
+ {q:'Version A oder B?',o:['A: Die Turniere, die, weil viele Zuschauer, die zum Teil weit anreisen, kommen, in großen Hallen stattfinden, dauern oft mehrere Tage.','B: Die Turniere finden in großen Hallen statt, weil viele Zuschauer kommen. Sie dauern oft mehrere Tage.'],c:1,h:'Achte darauf, wie weit das Verb „dauern“ vom Subjekt „Die Turniere“ entfernt ist.',x:'In B steht das Verb direkt nach dem Subjekt; der Nebensatz ist ans Ende gerückt.'},
+ {q:'Version A oder B?',o:['A: Heidi fordert ein Verbot. Sie hält Ego-Shooter für gefährlich, denn sie können süchtig machen.','B: Heidi, die Ego-Shooter, weil diese, wie sie meint, süchtig machen können, für gefährlich hält, fordert ein Verbot.'],c:0,h:'Zähle, wie viele Kommas mitten im Satz stehen.',x:'A teilt die Informationen auf drei kurze, verbundene Aussagen auf.'},
+ {q:'Was ist das Hauptproblem eines Schachtelsatzes?',o:['Er enthält zu viele Adjektive.','Lesende müssen sich viele Informationen merken, bevor der Satzkern klar wird.','Er hat keine Kommas.'],c:1,x:'Die Satzklammer bleibt zu lange offen – das Gedächtnis wird überlastet.'}
+ ]},
+{type:'order',title:'Den Schachtelsatz auflösen: Reihenfolge',prompt:'Dieser Schachtelsatz wurde in einzelne Sätze zerlegt: <i>„Der Blogger, der, nachdem er eine Übertragung, bei der mehrere Spieler aus Europa ein Ego-Shooter-Spiel spielten, gesehen hatte, an die Debatte um Killerspiele erinnert wurde, fragte seine Leser nach ihrer Meinung.“</i><br>Bringe die Sätze in eine logische Reihenfolge.',
+ pieces:['Mehrere Spieler aus Europa spielten ein Ego-Shooter-Spiel.','Das Spiel wurde live im Internet übertragen.','Ein Blogger sah sich die Übertragung an.','Dabei erinnerte er sich an die Debatte um Killerspiele.','Deshalb fragte er seine Leser nach ihrer Meinung.'],
+ help:{a:'Der erste Satz ist schon eingesetzt. Achte auf Signalwörter: „Dabei“ und „Deshalb“ verweisen auf etwas, das vorher passiert sein muss.',m:'Achte auf die Wörter „Dabei“ und „Deshalb“.'}},
+{type:'gap',title:'Sätze sinnvoll verbinden',prompt:'Ein Schachtelsatz wurde in kurze Sätze aufgeteilt. Setze passende Konnektoren ein, damit der Zusammenhang erhalten bleibt.',
+ text:`<p>Die Profis trainieren jeden Tag mehrere Stunden. [[Deshalb|Obwohl|Trotzdem]] sind sie bei Turnieren sehr konzentriert.</p><p>Viele Spieler sitzen lange vor dem Bildschirm. [[Trotzdem|Deshalb|Weil]] treiben die meisten Profis regelmäßig Sport.</p><p>Bei großen Turnieren gibt es hohe Preisgelder. [[Außerdem|Obwohl|Trotzdem]] können die Gewinner berühmt werden.</p><p>Das Finale begann am Abend. [[Danach|Davor|Obwohl]] feierten die Fans den Sieger.</p>`,
+ help:{a:'Frage dich: Ist es eine <b>Folge</b> (deshalb), ein <b>Gegensatz</b> (trotzdem), eine <b>Ergänzung</b> (außerdem) oder eine <b>zeitliche Abfolge</b> (danach)?',m:'Folge – Gegensatz – Ergänzung – Zeit: Welche Beziehung besteht zwischen den Sätzen?'}},
+{type:'write',title:'Schachtelsatz umschreiben',prompt:'Löse den folgenden Schachtelsatz in mehrere verständliche Sätze auf. Kein Satz sollte länger als 15 Wörter sein.',
+ source:'Dass Ego-Shooter, bei denen die Spieler, die oft noch sehr jung sind, Gegner, die sie virtuell bekämpfen, erschießen müssen, als Sport gelten, finden viele Kritiker, die sich mit Jugendschutz beschäftigen, falsch.',
+ starters:['Bei Ego-Shootern müssen …','Die Spieler sind oft …','Viele Kritiker beschäftigen sich …','Deshalb finden sie es falsch, dass …'],
+ bank:['Bei Ego-Shootern','oft sehr jung','virtuell','Jugendschutz','deshalb','dass'],
+ help:{a:'Finde zuerst den Kern: <i>Viele Kritiker finden falsch, dass Ego-Shooter als Sport gelten.</i> Schreibe danach die übrigen Informationen als eigene Sätze dazu. Die Satzanfänge unten helfen dir (anklicken fügt sie ein).',m:'Suche zuerst den Satzkern (Subjekt + Prädikat des Hauptsatzes).'},
+ minWords:20,maxLen:15,
+ checklist:['Alle Informationen aus dem Originalsatz sind noch enthalten.','Jeder Satz ist gut verständlich.','Die Sätze sind mit Konnektoren verbunden.'],
+ model:'Bei Ego-Shootern müssen die Spieler ihre Gegner virtuell erschießen. Die Spieler sind dabei oft noch sehr jung. Viele Kritiker beschäftigen sich mit dem Jugendschutz. Deshalb finden sie es falsch, dass solche Spiele als Sport gelten.'},
+{type:'write',levels:['e'],title:'Experten-Challenge: Einen ganzen Absatz entschachteln',prompt:'Dieser Messebericht besteht aus zwei extremen Schachtelsätzen. Schreibe ihn so um, dass er gut lesbar ist. Bedingungen: kein Satz länger als 15 Wörter, mindestens zwei verschiedene Konnektoren, kein eingeschobener Nebensatz. Alle Informationen müssen erhalten bleiben.',
+ source:'Die Gamescom, die jedes Jahr im August in Köln, wo über 800 Aussteller, die neue Spiele, die oft erst Monate später erscheinen, präsentieren, auf rund 190.000 Quadratmetern ausstellen, stattfindet, lockt Hunderttausende Besucher an. Viele von ihnen, die, weil sie die neuesten Spiele, bevor sie im Handel sind, testen wollen, stundenlang anstehen, kommen schon früh am Morgen.',
+ minWords:45,maxLen:15,minConnectors:2,
+ checklist:['Alle Informationen aus dem Original sind noch enthalten.','Satzlängen sind abwechslungsreich (kurz und mittel).','Kein Nebensatz ist mitten in einen anderen Satz eingeschoben.'],
+ model:'Die Gamescom findet jedes Jahr im August in Köln statt. Dort stellen über 800 Aussteller auf rund 190.000 Quadratmetern neue Spiele vor. Viele dieser Spiele erscheinen erst Monate später. Die Messe lockt Hunderttausende Besucher an. Viele kommen schon früh am Morgen, denn sie wollen die neuesten Spiele vorab testen. Dafür stehen sie oft stundenlang an.'}
+]},
+/* ---------- 2 ---------- */
+{id:'synonyme-kohaerenz',title:'Synonyme sinnvoll verwenden & Textkohärenz verbessern',short:'Wiederholungen vermeiden und Sätze so verknüpfen, dass ein roter Faden entsteht.',group:'Stil & Textgestaltung',
+info:`<p><b>Kohärenz</b> bedeutet: Ein Text hängt inhaltlich und sprachlich zusammen – die Leserinnen und Leser erkennen einen „roten Faden“.</p>
+<table><tr><th>Mittel</th><th>Beispiel</th></tr>
+<tr><td><b>Synonyme</b> (bedeutungsgleiche/-ähnliche Wörter)</td><td>Spieler → Profis, Gamer; kritisieren → bemängeln</td></tr>
+<tr><td><b>Oberbegriffe / Umschreibungen</b></td><td>Ego-Shooter → diese Computerspiele, das umstrittene Genre</td></tr>
+<tr><td><b>Pronomen</b> (Rückverweis)</td><td>Die Autorin … <u>Sie</u> betont …; das Turnier … <u>dort</u></td></tr>
+<tr><td><b>Konnektoren</b> (Verknüpfungswörter)</td><td>deshalb, außerdem, trotzdem, denn, zum Beispiel</td></tr></table>
+<h4>Konnektoren nach Funktion</h4>
+<table><tr><th>Begründung</th><th>Folge</th><th>Gegensatz/Einräumung</th><th>Ergänzung</th></tr>
+<tr><td>weil, da, denn, nämlich</td><td>deshalb, daher, folglich, somit</td><td>aber, jedoch, trotzdem, allerdings</td><td>außerdem, zudem, darüber hinaus</td></tr></table>
+<p class="merke"><b>Achtung bei Synonymen:</b> Sie müssen (1) im Kontext dieselbe Bedeutung haben, (2) zur <b>Stilebene</b> passen („zocken“ ist umgangssprachlich und passt nicht in einen sachlichen Text) und (3) Pronomen brauchen einen <b>eindeutigen Bezug</b>.</p>`,
+steps:`<ol><li>Markiere Wörter, die sich ständig wiederholen.</li><li>Überlege: Gibt es ein Synonym, einen Oberbegriff oder ein Pronomen?</li><li>Prüfe, ob das neue Wort wirklich passt (Bedeutung, Stil).</li><li>Verbinde Sätze mit Konnektoren aus der Tabelle.</li></ol>`,
+tasks:[
+{type:'mc',title:'Passt das Synonym?',prompt:'Wähle jeweils die Lösung, die in einem sachlichen Text am besten passt.',
+ items:[
+ {q:'„Die Spieler trainieren hart. Die ___ müssen bei Turnieren präzise sein.“',o:['Zocker','Profis','Kämpfer'],c:1,h:'Ein Wort ist umgangssprachlich, eines verändert die Bedeutung.',x:'„Profis“ ist sachlich und bedeutungsgleich. „Zocker“ ist umgangssprachlich, „Kämpfer“ verschiebt die Bedeutung.'},
+ {q:'„Viele Experten kritisieren Ego-Shooter. Sie ___ vor allem die Gewaltdarstellung.“',o:['meckern über','loben','bemängeln'],c:2,h:'Gesucht ist ein sachliches Wort mit ähnlicher Bedeutung wie „kritisieren“.',x:'„bemängeln“ ist sachlich und bedeutungsähnlich.'},
+ {q:'Welcher Oberbegriff fasst „Ego-Shooter, Strategiespiele und Rollenspiele“ zusammen?',o:['Sportarten','Computerspiele','Waffen'],c:1,x:'Alle drei sind Genres von Computerspielen.'},
+ {q:'„Die Autorin sprach mit ihrer Oma über die Wii-Konsole. Sie fand sie toll.“ Was ist hier das Problem?',o:['Der Bezug der Pronomen ist unklar.','Es fehlt ein Komma.','Der Satz ist zu lang.'],c:0,h:'Wen oder was meint „Sie“ – und wen „sie“?',x:'Es bleibt offen, ob die Autorin oder die Oma etwas toll fand – und ob die Oma oder die Konsole gemeint ist.'}
+ ]},
+{type:'gap',title:'Konnektoren einsetzen',prompt:'Setze das passende Verknüpfungswort ein.',
+ text:`<p>E-Sport ist bei Jugendlichen sehr beliebt. [[Allerdings|Deshalb|Zum Beispiel]] warnen einige Experten vor Suchtgefahr.</p><p>Die Profis trainieren täglich bis zu acht Stunden. [[Deshalb|Trotzdem|Obwohl]] sind sie bei Turnieren so präzise.</p><p>Sie trainieren nicht nur am Computer. [[Außerdem|Folglich|Dennoch]] gehen viele regelmäßig joggen.</p><p>Die Spiele sind erst ab 16 Jahren freigegeben. [[Trotzdem|Daher|Außerdem]] spielen auch jüngere Kinder sie.</p><p>Die Autorin besucht ihre Oma im Altenheim. [[Dort|Damals|Deshalb]] spielen die Bewohner Bowling an der Wii-Konsole.</p>`,
+ help:{a:'Gegensatz → <i>allerdings, trotzdem</i>; Folge → <i>deshalb</i>; Ergänzung → <i>außerdem</i>; Ort → <i>dort</i>.',m:'Bestimme die Beziehung zwischen den beiden Sätzen (Gegensatz, Folge, Ergänzung, Ort).'}},
+{type:'sort',title:'Konnektoren sortieren',prompt:'Ordne jedes Verknüpfungswort seiner Funktion zu.',
+ cats:['Begründung','Folge','Gegensatz/Einräumung','Ergänzung'],
+ items:[{t:'weil',c:0},{t:'deshalb',c:1},{t:'trotzdem',c:2},{t:'außerdem',c:3},{t:'denn',c:0},{t:'folglich',c:1},{t:'jedoch',c:2},{t:'darüber hinaus',c:3},{t:'da',c:0},{t:'daher',c:1},{t:'allerdings',c:2},{t:'zudem',c:3}],
+ help:{a:'Probe: <b>Begründung</b> beantwortet „Warum?“, <b>Folge</b> „Was ergibt sich daraus?“, <b>Gegensatz</b> „Was steht im Widerspruch dazu?“, <b>Ergänzung</b> „Was kommt noch dazu?“.'}},
+{type:'order',title:'Einen kohärenten Text herstellen',prompt:'Bringe die Sätze so in eine Reihenfolge, dass ein zusammenhängender Text entsteht.',
+ pieces:['Die Gamescom ist eine der größten Spielemessen der Welt.','Sie findet jedes Jahr im August in Köln statt.','Dort stellen über 800 Firmen ihre neuesten Spiele vor.','Außerdem gibt es eigene Bereiche für Cosplayer und Indie-Games.','Deshalb kommen jedes Jahr Hunderttausende Besucher in die Messehallen.'],
+ help:{a:'Der erste Satz ist vorgegeben. „Sie“ verweist auf die Gamescom, „Dort“ auf Köln, „Außerdem“ ergänzt etwas, „Deshalb“ nennt eine Folge.',m:'Achte auf die Verweiswörter: Sie, Dort, Außerdem, Deshalb.'}},
+{type:'write',title:'Wiederholungen überarbeiten',prompt:'Überarbeite den Text: Vermeide Wiederholungen durch Synonyme, Pronomen und Oberbegriffe und verknüpfe die Sätze mit Konnektoren.',
+ source:'E-Sport ist sehr beliebt. E-Sport füllt ganze Stadien. E-Sport wird auch im Internet übertragen. Die E-Sport-Spieler trainieren jeden Tag. Die E-Sport-Spieler müssen sehr konzentriert sein. Die E-Sport-Spieler verdienen bei großen Turnieren viel Geld. E-Sport ist aber auch umstritten.',
+ prefill:true,
+ bank:['die Profis','sie','die Wettkämpfe','der digitale Sport','außerdem','denn','trotzdem','dort'],
+ help:{a:'Der Text steht schon im Feld – du kannst ihn direkt verändern. Ziel: „E-Sport“ höchstens 2- bis 3-mal. Nutze die Wörter aus dem Wortspeicher.',m:'Ziel: „E-Sport“ höchstens 3-mal, mindestens 2 Konnektoren.'},
+ minWords:30,maxRepeat:{word:'e-sport',max:3},minConnectors:2,
+ checklist:['Die Synonyme passen zur Bedeutung und sind sachlich.','Jedes Pronomen hat einen eindeutigen Bezug.','Der Text liest sich flüssig.'],
+ model:'E-Sport ist sehr beliebt und füllt inzwischen ganze Stadien. Außerdem werden die Wettkämpfe live im Internet übertragen. Die Profis trainieren jeden Tag, denn sie müssen bei Turnieren hoch konzentriert sein. Wer gewinnt, kann sogar viel Geld verdienen. Trotzdem ist der digitale Sport umstritten.'}
+]},
+/* ---------- 3 ---------- */
+{id:'redewiedergabe',title:'Arten der Redewiedergabe unterscheiden & trainieren',short:'Direkte Rede, indirekte Rede mit Konjunktiv und Redebericht sicher verwenden.',group:'Stil & Textgestaltung',
+info:`<table><tr><th>Art</th><th>Beispiel</th></tr>
+<tr><td><b>Direkte Rede</b> (wörtlich, in Anführungszeichen)</td><td>Heidi schreibt: „Das muss verboten werden.“</td></tr>
+<tr><td><b>Indirekte Rede</b> (Konjunktiv I)</td><td>Heidi schreibt, das müsse verboten werden.</td></tr>
+<tr><td><b>Redebericht</b> (Inhalt zusammengefasst, mit redeeinleitendem Verb)</td><td>Heidi fordert ein Verbot von Ego-Shootern.</td></tr>
+<tr><td><b>Wiedergabe mit Präposition</b></td><td><i>Laut</i> Heidi / Heidi <i>zufolge</i> / <i>Nach Ansicht von</i> Heidi sind Ego-Shooter gefährlich.</td></tr></table>
+<h4>Konjunktiv I bilden: Stamm + Endung</h4>
+<table><tr><th>Verb</th><th>Indikativ</th><th>Konjunktiv I</th><th>Ersatzform (wenn Konj. I = Indikativ)</th></tr>
+<tr><td>sein</td><td>er ist / sie sind</td><td>er sei / sie seien</td><td>–</td></tr>
+<tr><td>haben</td><td>er hat / sie haben</td><td>er habe / <s>sie haben</s></td><td>sie <b>hätten</b> (Konjunktiv II)</td></tr>
+<tr><td>können</td><td>er kann</td><td>er könne</td><td>–</td></tr>
+<tr><td>spielen</td><td>er spielt / sie spielen</td><td>er spiele / <s>sie spielen</s></td><td>sie <b>würden spielen</b> (da „spielten“ = Präteritum)</td></tr></table>
+<h4>Beim Umformen anpassen</h4>
+<ul><li><b>Pronomen:</b> ich → er/sie, wir → sie, mich → ihn/sie</li><li><b>Orts- und Zeitangaben:</b> hier → dort, heute → an diesem Tag</li><li><b>Fragen:</b> mit Fragewort oder „ob“ einleiten: <i>Sie fragt, ob …</i></li></ul>
+<h4>Zeichensetzung bei direkter Rede</h4>
+<ul><li>Begleitsatz <b>vorn</b>: Doppelpunkt → Eddy sagt: „Ich trainiere jeden Tag.“</li><li>Begleitsatz <b>hinten</b>: Komma nach dem Anführungszeichen, Punkt fällt weg → „Ich trainiere jeden Tag“, sagt Eddy.</li><li>Frage- und Ausrufezeichen bleiben → „Wann beginnt das Turnier?“, fragt Lisa.</li></ul>
+<p class="merke"><b>Redeeinleitende Verben</b> zeigen die Haltung: behaupten, betonen, fordern, kritisieren, einräumen, bezweifeln, vertreten (eine Meinung), widersprechen …</p>`,
+steps:`<ol><li>Unterstreiche das Verb in der wörtlichen Rede.</li><li>Bilde den Konjunktiv I: Verbstamm + <b>-e</b> (er spiel<b>e</b>, er hab<b>e</b>), bei „sein“: sei.</li><li>Klingt es wie der Indikativ? Dann nimm „hätten“, „wären“ oder „würden“.</li><li>Passe die Pronomen an (ich → er/sie).</li></ol>`,
+tasks:[
+{type:'sort',title:'Welche Art der Redewiedergabe ist das?',prompt:'Ordne jeden Satz der passenden Art zu.',
+ cats:['direkte Rede','indirekte Rede','Redebericht','mit Präposition'],
+ items:[{t:'Heidi schreibt: „Das muss verboten werden.“',c:0},{t:'Heidi schreibt, das müsse verboten werden.',c:1},{t:'Heidi fordert ein Verbot von Ego-Shootern.',c:2},{t:'Laut Heidi sollten Ego-Shooter verboten werden.',c:3},{t:'„Warum sollte mich ein Spiel dazu bringen, Leute umzulegen?“, fragt Michael Schmitz.',c:0},{t:'Spitzer zufolge führt der Konsum zu mehr Aggression.',c:3},{t:'Dani räumt ein, Gewaltdarstellungen könne man kritisieren.',c:1},{t:'Die Autorin plädiert für einen offenen Umgang mit Computerspielen.',c:2}],
+ help:{a:'Anführungszeichen → direkte Rede. Konjunktiv (müsse, könne, sei) → indirekte Rede. Nur der Inhalt mit einem Verb wie „fordert“ → Redebericht. „laut/zufolge“ → Präposition.'}},
+{type:'gap',title:'Den Konjunktiv bilden',prompt:'Setze das Verb in der richtigen Form der indirekten Rede ein.',
+ text:`<p>1. Spitzer behauptet, das Spielen [[führe|führt|führte]] zur Abstumpfung.</p><p>2. Eddy sagt, Ego-Shooter [[seien|sind|sei]] ein Sport.</p><p>3. Heidi meint, man [[müsse|muss|musste]] solche Spiele verbieten.</p><p>4. Dani schreibt, die Profis [[hätten|haben|habe]] einen sportlichen Ausgleich.</p><p>5. Die Autorin erklärt, sie [[sei|ist|war]] mit Computerspielen aufgewachsen.</p><p>6. Egbert fordert, eine Sportart [[dürfe|darf|durfte]] Gewalt nicht verherrlichen.</p><p>7. Viele Eltern sagen, ihre Kinder [[würden|werden|wird]] zu lange spielen.</p><p>8. Der Trainer betont, jeder Spieler [[habe|hat|hatte]] eine Chance.</p>`,
+ help:{a:'Konjunktiv I = Stamm + e (führ<b>e</b>, müss<b>e</b>). Bei Plural von „haben“ und bei „spielen“ nimmst du die Ersatzform (hätten, würden).',m:'Achtung bei Satz 4 und 7: Konjunktiv I klingt dort wie der Indikativ.'}},
+{type:'mc',title:'Zeichensetzung bei der direkten Rede',prompt:'Welche Schreibweise ist richtig?',
+ items:[
+ {q:'Begleitsatz hinten:',o:['„Ego-Shooter sind Sport.“, sagt Eddy.','„Ego-Shooter sind Sport“, sagt Eddy.','„Ego-Shooter sind Sport“ sagt Eddy.'],c:1,h:'Der Punkt der wörtlichen Rede entfällt, das Komma steht nach dem Anführungszeichen.',x:'Punkt entfällt, Komma nach dem schließenden Anführungszeichen.'},
+ {q:'Begleitsatz vorn:',o:['Eddy sagt: „Ich trainiere jeden Tag.“','Eddy sagt, „Ich trainiere jeden Tag.“','Eddy sagt: „ich trainiere jeden Tag.“'],c:0,x:'Doppelpunkt, und die wörtliche Rede beginnt groß.'},
+ {q:'Frage als wörtliche Rede:',o:['„Wann beginnt das Turnier“?, fragt Lisa.','„Wann beginnt das Turnier?“ fragt Lisa.','„Wann beginnt das Turnier?“, fragt Lisa.'],c:2,x:'Fragezeichen bleibt in den Anführungszeichen, danach trotzdem Komma.'},
+ {q:'Eingeschobener Begleitsatz:',o:['„E-Sport“, meint Dani, „ist ein echter Sport.“','„E-Sport, meint Dani, ist ein echter Sport.“','„E-Sport“ meint Dani „ist ein echter Sport.“'],c:0,x:'Der Begleitsatz steht außerhalb der Anführungszeichen und wird von Kommas eingeschlossen.'}
+ ]},
+{type:'transform',title:'Direkte Rede in indirekte Rede umformen',prompt:'Schreibe die Sätze in indirekter Rede (ohne „dass“ oder mit „dass“ – beides ist möglich).',
+ items:[
+ {src:'Eddy sagt: „Ich spiele selbst.“',acc:['Eddy sagt, er spiele selbst.','Eddy sagt, dass er selbst spiele.'],h:'ich → er; spielt → spiele'},
+ {src:'Dani meint: „Die Spiele sind erst ab 16 Jahren erlaubt.“',acc:['Dani meint, die Spiele seien erst ab 16 Jahren erlaubt.','Dani meint, dass die Spiele erst ab 16 Jahren erlaubt seien.'],h:'sind → seien'},
+ {src:'Egbert behauptet: „Die Spieler haben keine Wahl.“',acc:['Egbert behauptet, die Spieler hätten keine Wahl.','Egbert behauptet, dass die Spieler keine Wahl hätten.'],h:'haben (Konj. I) klingt wie Indikativ → hätten'},
+ {src:'Die Autorin schreibt: „Ich bin Jahrgang 1985.“',acc:['Die Autorin schreibt, sie sei Jahrgang 1985.','Die Autorin schreibt, dass sie Jahrgang 1985 sei.'],h:'ich → sie; bin → sei'},
+ {src:'Lisa fragt: „Kommst du mit zur Gamescom?“',acc:['Lisa fragt, ob er mitkomme zur Gamescom.','Lisa fragt, ob er mit zur Gamescom komme.','Lisa fragt, ob sie mit zur Gamescom komme.','Lisa fragt, ob er zur Gamescom mitkomme.','Lisa fragt, ob sie zur Gamescom mitkomme.'],h:'Frage ohne Fragewort → „ob“; du → er/sie; kommst → komme'}
+ ],
+ help:{m:'Pronomen anpassen und Konjunktiv I verwenden. Bei Ja/Nein-Fragen leitest du mit „ob“ ein.'}},
+{type:'mc',title:'Das passende redeeinleitende Verb',prompt:'Welches Verb gibt die Haltung der Person richtig wieder?',
+ items:[
+ {q:'Die Autorin ___, dass es auch pädagogisch wenig wertvolle Spiele gebe.',o:['fordert','räumt ein','bestreitet'],c:1,x:'Sie gesteht einen Gegenpunkt zu → „einräumen“.'},
+ {q:'Heidi ___ ein Verbot von Ego-Shootern im E-Sport.',o:['fordert','bezweifelt','lobt'],c:0,x:'Sie verlangt etwas → „fordern“.'},
+ {q:'Michael Schmitz ___, dass ein Spiel ihn gewalttätig machen könne.',o:['bestätigt','bezweifelt','betont'],c:1,x:'Seine Frage „Warum sollte …?“ drückt Zweifel aus.'},
+ {q:'Dani ___ die Meinung, ältere Jugendliche könnten Spiel und Realität trennen.',o:['vertritt','widerruft','verschweigt'],c:0,x:'Man vertritt eine Meinung.'}
+ ]},
+{type:'write',levels:['m','e'],title:'Einen Kommentar in indirekter Rede wiedergeben',prompt:'Gib Danis Kommentar in 3–5 Sätzen in indirekter Rede bzw. als Redebericht wieder. Verwende mindestens zwei verschiedene redeeinleitende Verben.',
+ source:'Dani: „Dass Gewaltdarstellungen gezeigt werden, kann man kritisieren. Ego-Shooter sollte man dennoch zulassen, weil es sich in der Regel um Spiele handelt, die erst ab 16 Jahren gespielt werden dürfen. Die älteren Jugendlichen und Erwachsenen können sehr gut einschätzen, dass die Darstellungen nichts mit der Realität zu tun haben. Die professionellen Spieler schaffen sich übrigens stets einen Ausgleich.“',
+ help:{m:'Verben wie: räumt ein, betont, begründet, ist der Meinung, weist darauf hin. Konjunktivformen: könne, solle, handle, dürften, hätten, schafften … (oder „würden“).'},
+ minWords:35,minKonj:3,noQuotes:true,
+ checklist:['Ich habe Pronomen angepasst.','Ich habe redeeinleitende Verben abwechslungsreich gewählt.','Der Inhalt ist korrekt wiedergegeben.'],
+ model:'Dani räumt ein, dass man Gewaltdarstellungen kritisieren könne. Dennoch solle man Ego-Shooter zulassen, da sie in der Regel erst ab 16 Jahren gespielt werden dürften. Ältere Jugendliche und Erwachsene könnten nach Danis Erfahrung gut einschätzen, dass die Darstellungen nichts mit der Realität zu tun hätten. Außerdem weist Dani darauf hin, dass sich Profis stets einen sportlichen Ausgleich schafften.'}
+]},
+/* ---------- 4 ---------- */
+{id:'fehlerdiagnose',title:'Richtig schreiben – Fehler diagnostizieren',short:'Fehlerarten erkennen, passende Rechtschreibstrategien anwenden, eigene Texte prüfen.',group:'Rechtschreibung',
+info:`<p>Wer seine Fehler <b>diagnostiziert</b>, also herausfindet, welche Art von Fehler er macht, kann gezielt üben. Lege dazu ein <b>Fehlerprotokoll</b> an: falsches Wort – richtiges Wort – Fehlerart – Strategie.</p>
+<table><tr><th>Kürzel</th><th>Fehlerart</th><th>Beispiel</th></tr>
+<tr><td>GK</td><td>Groß-/Kleinschreibung</td><td>beim <s>zocken</s> → beim Zocken</td></tr>
+<tr><td>GZ</td><td>Getrennt-/Zusammenschreibung</td><td><s>teil nehmen</s> → teilnehmen</td></tr>
+<tr><td>DD</td><td>das/dass</td><td>Ich hoffe, <s>das</s> → dass …</td></tr>
+<tr><td>S</td><td>s-Laute</td><td><s>Spass</s> → Spaß</td></tr>
+<tr><td>D</td><td>Dehnung/Schärfung</td><td><s>trainiren</s> → trainieren, <s>gewan</s> → gewann</td></tr>
+<tr><td>W</td><td>Wortstamm/Ableitung</td><td><s>endtäuscht</s> → enttäuscht</td></tr></table>
+<h4>Rechtschreibstrategien</h4>
+<ul><li><b>Verlängern:</b> Gewinn – Gewin<u>ne</u> → Doppel-n hörbar; Ta<u>g</u> – Ta<u>g</u>e</li>
+<li><b>Ableiten:</b> läuft ← laufen; Räume ← Raum</li>
+<li><b>Zerlegen:</b> Freundschaft|s|spiel, ent|täuscht</li>
+<li><b>Artikel-/Signalwortprobe:</b> beim Zocken, das Spielen → groß</li>
+<li><b>Ersatzprobe:</b> das → dieses/welches möglich? Sonst „dass“</li>
+<li><b>Merkwörter / Nachschlagen:</b> Vater, Rhythmus, Shooter</li></ul>`,
+steps:`<ol><li>Lies den Text Wort für Wort – am besten halblaut.</li><li>Frage bei jedem Nomen: Steht es groß?</li><li>Bei unsicheren Wörtern: verlängern oder ableiten.</li><li>Bei „das/dass“: Ersatzprobe mit „dieses/welches“.</li></ol>`,
+tasks:[
+{type:'errors',title:'Fehler finden',prompt:'In diesem Blogeintrag sind Rechtschreibfehler versteckt. Klicke die falsch geschriebenen Wörter an und überprüfe dann.',
+ text:'Gestern habe ich zum ersten {mal>Mal|GK} ein E-Sport-Turnier angeschaut. Ich wusste nicht, {das>dass|DD} so viele Menschen zuschauen. Die Spieler müssen sehr viel {trainiren,>trainieren,|D} um erfolgreich zu sein. Beim {zocken>Zocken|GK} kommt es vor allem auf Konzentration an. Ein Spieler erzählte, dass er sich in seiner Freizeit beim {Rad fahren>Radfahren|GZ} erholt. Am Ende {gewan>gewann|D} das Team aus Korea. Die Fans der Verlierer waren {endtäuscht,>enttäuscht,|W} aber das Turnier hat allen großen {Spass>Spaß|S} gemacht.'},
+{type:'sort',title:'Fehler einordnen',prompt:'Zu welcher Fehlerart gehört der Fehler?',
+ cats:['GK','GZ','DD','S','D','W'],
+ items:[{t:'Das Spiel macht <s>spass</s> → Spaß',c:3},{t:'heute <s>abend</s> → heute Abend',c:0},{t:'Ich hoffe, <s>das</s> du kommst → dass',c:2},{t:'<s>Wiederholdung</s> → Wiederholung',c:5},{t:'<s>Stunden lang</s> → stundenlang',c:1},{t:'<s>Mahl</s> (zum ersten Mal) → Mal',c:4},{t:'Sie <s>ließt</s> viel → liest',c:3},{t:'<s>gefärlich</s> → gefährlich',c:4},{t:'etwas <s>neues</s> → etwas Neues',c:0}],
+ help:{a:'GK = Groß/Klein · GZ = Getrennt/Zusammen · DD = das/dass · S = s-Laute · D = Dehnung/Schärfung (ie, h, Doppelkonsonant) · W = Wortstamm/Ableitung. „Wiederholung“ kommt von „wiederholen“ – nicht von „holden“.',m:'Die Kürzel findest du im Infokasten.'}},
+{type:'mc',title:'Welche Strategie hilft?',prompt:'Wähle die Strategie, mit der man das Problem am schnellsten löst.',
+ items:[
+ {q:'„Gewin“ oder „Gewinn“?',o:['Verlängern','Ersatzprobe','Artikelprobe'],c:0,x:'Gewinne – das Doppel-n wird hörbar.'},
+ {q:'„läuft“ oder „leuft“?',o:['Zerlegen','Ableiten','Verlängern'],c:1,x:'läuft kommt von laufen → äu.'},
+ {q:'„Ich glaube, das/dass er gewinnt.“',o:['Ersatzprobe','Ableiten','Merkwort'],c:0,x:'„dieses/welches“ passt nicht → dass.'},
+ {q:'„Freundschaftspiel“ oder „Freundschaftsspiel“?',o:['Artikelprobe','Zerlegen','Verlängern'],c:1,x:'Freundschaft + s (Fugen-s) + Spiel → Freundschaftsspiel.'},
+ {q:'„beim lesen“ oder „beim Lesen“?',o:['Signalwort-/Artikelprobe','Verlängern','Ableiten'],c:0,x:'„beim“ (= bei dem) zeigt eine Nominalisierung an → groß.'}
+ ]},
+{type:'fix',levels:['m','e'],title:'Einen Text korrigieren',prompt:'Korrigiere den Text direkt im Feld. Achte auf alle Fehlerarten.',
+ start:'Viele Eltern glauben, das Computerspiele gefärlich sind. Doch beim spielen lernen Kinder auch viel neues. Wer regelmäsig spielt, kann seine Reaktionsfähigkeit verbessern. Trotzdem sollte man nicht den ganzen Tag vor dem Bildschirm sitzen und auch mal Fußball spielen gehen.',
+ target:'Viele Eltern glauben, dass Computerspiele gefährlich sind. Doch beim Spielen lernen Kinder auch viel Neues. Wer regelmäßig spielt, kann seine Reaktionsfähigkeit verbessern. Trotzdem sollte man nicht den ganzen Tag vor dem Bildschirm sitzen und auch mal Fußball spielen gehen.',
+ help:{m:'Es sind 5 Fehler. Kategorien: DD, D, GK (2×), S.'}},
+{type:'write',title:'Mein Fehlerprotokoll',prompt:'Lege ein kleines Fehlerprotokoll an: Wähle drei Fehler aus den Aufgaben oben (oder aus einem eigenen Text). Schreibe zu jedem: falsches Wort → richtiges Wort – Fehlerart – Strategie.',
+ starters:['spass → Spaß – S – Merkwort/Nachschlagen: langer Vokal + ß','beim zocken → beim Zocken – GK – Signalwort „beim“'],
+ help:{a:'So kann eine Zeile aussehen: <i>gewan → gewann – D – Verlängern: gewinnen</i>. Klicke die Beispiele an, um sie einzufügen, und ergänze zwei eigene.',m:'Format: falsch → richtig – Kürzel – Strategie.'},
+ minWords:15,
+ checklist:['Zu jedem Fehler habe ich die Fehlerart notiert.','Zu jedem Fehler habe ich eine passende Strategie notiert.','Ich weiß, welche Fehlerart ich selbst am häufigsten mache.'],
+ model:'trainiren → trainieren – D – Merkwort: Verben auf -ieren\ndas → dass – DD – Ersatzprobe (dieses/welches passt nicht)\nendtäuscht → enttäuscht – W – Zerlegen: ent + täuscht'}
+]},
+/* ---------- 5 ---------- */
+{id:'getrennt-zusammen',title:'Getrennt- und Zusammenschreibung',short:'Rad fahren oder radfahren? Die wichtigsten Regeln sicher anwenden.',group:'Rechtschreibung',
+info:`<table><tr><th>Regel</th><th>Beispiele</th></tr>
+<tr><td><b>Verb + Verb</b> → meist getrennt</td><td>spazieren gehen, schwimmen lernen</td></tr>
+<tr><td><b>Nomen + Verb</b> → meist getrennt</td><td>Rad fahren, Fußball spielen, Auto fahren</td></tr>
+<tr><td>… aber zusammen, wenn das Nomen „verblasst“ ist</td><td>teilnehmen, stattfinden, leidtun, eislaufen, standhalten</td></tr>
+<tr><td><b>Adjektiv + Verb</b> → getrennt bei wörtlicher Bedeutung</td><td>laut lesen, schnell laufen</td></tr>
+<tr><td>… zusammen bei neuer (übertragener) Bedeutung</td><td>schwarzfahren (ohne Ticket), schwerfallen (Mühe machen), krankschreiben</td></tr>
+<tr><td><b>Verbindungen mit „sein“</b> → immer getrennt</td><td>da sein, fertig sein, zusammen sein</td></tr>
+<tr><td><b>Nominalisierungen</b> → immer zusammen und groß</td><td>das Radfahren, beim Fußballspielen, zum Spazierengehen</td></tr>
+<tr><td><b>Betonung entscheidet</b> bei Partikeln</td><td>sich <u>wie</u>dersehen (treffen) – wieder <u>se</u>hen (erneut sehen können)</td></tr>
+<tr><td><b>irgend-</b> → immer zusammen</td><td>irgendwann, irgendjemand, irgendetwas</td></tr>
+<tr><td><b>Mal</b></td><td>einmal, dreimal – aber: jedes Mal, zum ersten Mal</td></tr></table>
+<p class="merke"><b>Trick:</b> Steht ein Artikel oder „beim/zum“ davor? Dann wird die ganze Verbindung zum Nomen: <i>beim Radfahren</i>.</p>`,
+steps:`<ol><li>Steht „beim/zum/das“ davor? → zusammen und groß.</li><li>Ist es wörtlich gemeint (laut lesen) oder übertragen (schwarzfahren)?</li><li>Ist „sein“ dabei? → immer getrennt.</li><li>Im Zweifel: Wörterbuch nutzen.</li></ol>`,
+tasks:[
+{type:'gap',title:'Getrennt oder zusammen?',prompt:'Wähle bzw. schreibe die richtige Schreibweise.',mMode:'input',
+ text:`<p>1. Am Wochenende wollen wir [[Rad fahren|radfahren|Radfahren]].</p><p>2. Beim [[Radfahren|Rad fahren|radfahren]] trage ich immer einen Helm.</p><p>3. Das Turnier wird im August in Köln [[stattfinden|statt finden]].</p><p>4. Viele Schülerinnen möchten am Turnier [[teilnehmen|teil nehmen]].</p><p>5. Es wird dir sicher nicht [[schwerfallen|schwer fallen]], die Regeln zu lernen.</p><p>6. Ich habe [[jedes Mal|jedesmal]] verloren.</p><p>7. Kannst du morgen um acht Uhr [[da sein|dasein]]?</p><p>8. Ich hoffe, wir werden uns bald [[wiedersehen|wieder sehen]].</p><p>9. Nach der Augenoperation konnte er endlich [[wieder sehen|wiedersehen]].</p><p>10. Er ist ohne Ticket [[schwarzgefahren|schwarz gefahren]].</p>`,
+ help:{a:'Satz 2: „Beim“ macht ein Nomen daraus. Satz 5 und 10: übertragene Bedeutung. Satz 7: Verbindungen mit „sein“. Satz 8/9: Betonung beachten.',m:'Denke an Nominalisierung, übertragene Bedeutung und die „sein“-Regel.'}},
+{type:'sort',title:'Regeln zuordnen',prompt:'Welche Regel erklärt die Schreibweise?',
+ cats:['Nominalisierung','übertragene Bedeutung','verblasstes Nomen','„sein“ → getrennt','Nomen + Verb → getrennt'],
+ items:[{t:'beim Fußballspielen',c:0},{t:'Fußball spielen',c:4},{t:'krankschreiben',c:1},{t:'teilnehmen',c:2},{t:'fertig sein',c:3},{t:'das Autofahren',c:0},{t:'stattfinden',c:2},{t:'Klavier spielen',c:4},{t:'schwarzfahren',c:1},{t:'zusammen sein',c:3}],
+ help:{a:'Artikel/beim/zum davor → Nominalisierung. „schwarz“ in schwarzfahren hat nichts mit der Farbe zu tun → übertragen. Bei „teil-“ und „statt-“ erkennt man das Nomen kaum noch → verblasst.'}},
+{type:'errors',title:'Fehlersuche: Getrennt und zusammen',prompt:'Klicke alle Wörter bzw. Wortgruppen an, die falsch geschrieben sind.',
+ text:'Viele Jugendliche wollen beim großen Turnier {teil nehmen.>teilnehmen.|GZ} Wer gewinnen will, muss jeden Tag {Stunden lang>stundenlang|GZ} üben. Trotzdem sollte man nicht vergessen, regelmäßig {spazierenzugehen.>spazieren zu gehen.|GZ} Beim {Fußball spielen>Fußballspielen|GZ} trifft man Freunde. Wenn ein Spieler jedes Mal verliert, kann ihm das sehr {schwer fallen.>schwerfallen.|GZ} Trotzdem wollen wir uns nächstes Jahr {wieder sehen.>wiedersehen.|GZ} Irgendwann wird es klappen.'},
+{type:'mc',title:'Regeln verstehen',prompt:'Warum wird so geschrieben? Wähle die passende Erklärung.',
+ items:[
+ {q:'„Beim <b>Fußballspielen</b> trifft man Freunde.“',o:['Weil „Fußball“ ein Nomen ist.','Weil „beim“ die ganze Wortgruppe zum Nomen macht (Nominalisierung).','Weil der Satz sonst zu lang wäre.'],c:1,h:'Welches Signalwort steht davor?',x:'Nominalisierte Verbindungen schreibt man zusammen und groß.'},
+ {q:'„Viele möchten am Turnier <b>teilnehmen</b>.“',o:['Das Nomen „Teil“ ist hier verblasst – man erkennt es kaum noch als Nomen.','Alle Verbindungen mit Nomen werden zusammengeschrieben.','Weil „teilnehmen“ ein Fremdwort ist.'],c:0,x:'Wie bei stattfinden, leidtun, standhalten.'},
+ {q:'„Kannst du morgen <b>da sein</b>?“',o:['Weil „da“ ein Adverb ist, das immer getrennt steht.','Verbindungen mit „sein“ schreibt man immer getrennt.','Weil es eine Frage ist.'],c:1,h:'Denke an fertig sein, zusammen sein …',x:'da sein, fertig sein, zusammen sein – immer getrennt.'},
+ {q:'„Die Prüfung wird ihm <b>schwerfallen</b>.“ – Was bedeutet das?',o:['Er wird bei der Prüfung hinfallen.','Die Prüfung wird ihm Mühe machen.','Die Prüfung ist schwer zu tragen.'],c:1,x:'Übertragene Bedeutung → zusammen.'}
+ ]},
+{type:'write',levels:['e'],title:'Experten-Challenge: Bedeutungsunterschiede',prompt:'Bilde zu jedem Paar zwei Sätze, die den Bedeutungsunterschied deutlich machen: <b>wieder sehen / wiedersehen</b>, <b>schwer fallen / schwerfallen</b>, <b>frei sprechen / freisprechen</b>.',
+ minWords:40,mustInclude:['wieder sehen','wiedersehen','schwer fallen','schwerfallen','frei sprechen','freisprechen'],
+ checklist:['Die getrennte Form ist jeweils wörtlich gemeint.','Die zusammengeschriebene Form hat eine neue Bedeutung.'],
+ model:'Nach der Operation konnte er endlich wieder sehen. – Wir wollen uns bald wiedersehen.\nPass auf, dass du nicht schwer fallen wirst, wenn du so springst. – Mathe ist mir immer schwergefallen.\nBeim Referat solltest du frei sprechen. – Das Gericht wird den Angeklagten freisprechen.'}
+]},
+/* ---------- 6 ---------- */
+{id:'gross-klein',title:'Groß- und Kleinschreibung',short:'Nominalisierungen, Signalwörter, Tageszeiten und Höflichkeitsanrede.',group:'Rechtschreibung',
+info:`<h4>Großgeschrieben werden</h4>
+<ul><li>Satzanfänge und <b>Nomen</b></li>
+<li><b>Nominalisierungen</b> (Verben/Adjektive als Nomen), erkennbar an <b>Signalwörtern</b>:<br>Artikel: <i>das Spielen</i> · verschmolzene Präpositionen: <i>beim Zocken, zum Trainieren, im Allgemeinen</i> · Pronomen: <i>dein Lachen</i> · Mengenwörter: <i>etwas Neues, nichts Besonderes, viel Gutes, alles Gute</i></li>
+<li>Tageszeiten nach <i>heute, gestern, morgen</i>: <i>heute Abend, gestern Mittag</i></li>
+<li>die <b>Höflichkeitsanrede</b>: <i>Sie, Ihnen, Ihr</i> (Anrede einer Person, die man siezt)</li>
+<li>Eigennamen: <i>die Deutsche Welle, der Kölner Dom</i></li></ul>
+<h4>Kleingeschrieben werden</h4>
+<ul><li>Tageszeiten/Wochentage mit <b>-s</b>: <i>abends, montags</i></li>
+<li>Superlative mit „am“: <i>am besten, am schnellsten</i></li>
+<li>unbestimmte Zahlwörter: <i>die meisten, die beiden, die vielen, die anderen</i></li>
+<li>Adjektive, die sich auf ein vorangehendes oder folgendes Nomen beziehen: <i>Das rote Trikot gefällt mir besser als das blaue.</i></li></ul>
+<p class="merke"><b>Artikelprobe:</b> Kann ich „das/beim/etwas“ davorsetzen und ergibt sich ein Sinn? Dann ist es wahrscheinlich eine Nominalisierung.</p>`,
+steps:`<ol><li>Suche vor dem Wort nach einem Signalwort (das, beim, zum, etwas, nichts, viel, alles).</li><li>Gefunden? → groß.</li><li>Endet eine Zeitangabe auf -s (abends)? → klein.</li><li>„am …sten“ → klein.</li></ol>`,
+tasks:[
+{type:'gap',title:'Groß oder klein?',prompt:'Wähle bzw. schreibe die richtige Schreibweise.',mMode:'input',
+ text:`<p>1. Beim [[Zocken|zocken]] vergesse ich manchmal die Zeit.</p><p>2. Wir wünschen dir alles [[Gute|gute]] für das Turnier.</p><p>3. Das Finale findet heute [[Abend|abend]] statt.</p><p>4. Ich trainiere meistens [[abends|Abends]].</p><p>5. Dieses Team spielt am [[besten|Besten]].</p><p>6. Auf der Messe gab es nichts [[Besonderes|besonderes]].</p><p>7. Im [[Allgemeinen|allgemeinen]] sind die Spieler sehr fair.</p><p>8. Die [[meisten|Meisten]] kamen mit dem Zug.</p><p>9. Liebe Frau Schmitz, haben [[Sie|sie]] das Turnier gesehen?</p><p>10. Das ist das [[Spannendste|spannendste]], was ich je gesehen habe.</p><p>11. Er hat auf der Gamescom viel [[Neues|neues]] entdeckt.</p>`,
+ help:{a:'Suche Signalwörter: beim, alles, nichts, im, das, viel → groß. „heute Abend“ → groß. „abends“, „am besten“, „die meisten“ → klein. Satz 9: Höflichkeitsanrede.',m:'Achte auf Signalwörter – und auf die Ausnahmen (am …sten, -s-Zeitangaben, die meisten).'}},
+{type:'sort',title:'Signalwort oder nicht?',prompt:'Kündigt das Wort eine Großschreibung (Nominalisierung) an?',
+ cats:['Signalwort → groß','kein Signalwort'],
+ items:[{t:'beim (… Spielen)',c:0},{t:'sehr (… spannend)',c:1},{t:'etwas (… Neues)',c:0},{t:'nichts (… Wichtiges)',c:0},{t:'gern (… spielen)',c:1},{t:'zum (… Trainieren)',c:0},{t:'immer (… schneller)',c:1},{t:'alles (… Gute)',c:0},{t:'am (… besten)',c:1},{t:'das (… Lesen)',c:0}],
+ help:{a:'Artikel, „beim/zum/im“ und Mengenwörter (etwas, nichts, alles, viel) sind Signalwörter. Achtung: „am“ + Superlativ wird kleingeschrieben!'}},
+{type:'fix',title:'Text korrigieren: alles kleingeschrieben',prompt:'Hier hat jemand alles kleingeschrieben. Korrigiere den Text direkt im Feld.',
+ start:'beim zocken vergessen viele jugendliche die zeit. heute abend findet in köln ein großes turnier statt. abends sitzen viele fans vor dem bildschirm und hoffen auf etwas spannendes. am besten gefällt ihnen das finale. die meisten wissen, dass bewegung wichtig ist. haben sie schon einmal mit ihren kindern über ihr lieblingsspiel gesprochen?',
+ target:'Beim Zocken vergessen viele Jugendliche die Zeit. Heute Abend findet in Köln ein großes Turnier statt. Abends sitzen viele Fans vor dem Bildschirm und hoffen auf etwas Spannendes. Am besten gefällt ihnen das Finale. Die meisten wissen, dass Bewegung wichtig ist. Haben Sie schon einmal mit Ihren Kindern über ihr Lieblingsspiel gesprochen?',
+ help:{a:'Nach dem Prüfen werden Wörter, die noch nicht stimmen, rot markiert. Denke an Satzanfänge, Nomen, Signalwörter und die Höflichkeitsanrede (letzter Satz: „Sie“ und „Ihren“ – aber „ihr Lieblingsspiel“ gehört den Kindern!).',m:'Letzter Satz: Welche Pronomen sind Höflichkeitsanrede, welches nicht?'}},
+{type:'mc',title:'Begründe die Schreibweise',prompt:'Warum wird so geschrieben?',
+ items:[
+ {q:'„Das <b>Spielen</b> am Computer macht Spaß.“',o:['Weil es am Satzanfang steht.','Weil der Artikel „das“ das Verb zum Nomen macht.','Weil „spielen“ immer großgeschrieben wird.'],c:1,x:'Nominalisierung durch Artikel.'},
+ {q:'„Wir treffen uns <b>montags</b>.“',o:['Zeitangaben auf -s werden kleingeschrieben.','Wochentage werden immer kleingeschrieben.','Weil kein Artikel davorsteht.'],c:0,x:'montags, abends, nachts → Adverbien, klein.'},
+ {q:'„Sie war am <b>schnellsten</b>.“',o:['„am“ ist ein Signalwort.','Superlative mit „am“ werden kleingeschrieben.','Es ist ein Eigenname.'],c:1,x:'am besten, am schnellsten → klein.'}
+ ]}
+]},
+/* ---------- 7 ---------- */
+{id:'kommas-satzgefuege',title:'Kommas in komplexen Satzgefügen',short:'Haupt- und Nebensätze erkennen, eingeschobene Nebensätze und Infinitivgruppen.',group:'Zeichensetzung',
+info:`<p>Ein <b>Satzgefüge</b> besteht aus mindestens einem Hauptsatz (HS) und einem Nebensatz (NS). <b>Nebensätze werden immer durch Komma abgetrennt</b> – auch voneinander.</p>
+<h4>Woran erkennst du einen Nebensatz?</h4>
+<ul><li>Er beginnt mit einem <b>Einleitewort</b>: Subjunktion (<i>weil, dass, obwohl, wenn, nachdem, als, damit</i>), Relativpronomen (<i>der, die, das, welche, dessen</i>) oder Fragewort (<i>ob, wie, warum, wann</i>).</li>
+<li>Das <b>gebeugte Verb steht am Ende</b>: …, weil die Turniere lange <u>dauern</u>.</li></ul>
+<h4>Stellung des Nebensatzes</h4>
+<div class="example good">Vorangestellt: <b>Weil die Turniere lange dauern,</b> müssen die Spieler fit sein.</div>
+<div class="example good">Nachgestellt: Die Spieler müssen fit sein, <b>weil die Turniere lange dauern.</b></div>
+<div class="example good">Eingeschoben: Der Spieler, <b>der gewonnen hat,</b> kommt aus Korea. → Komma davor UND danach!</div>
+<h4>Besonderheiten</h4>
+<ul><li>Gleichrangige Nebensätze mit <b>und/oder</b> verbunden → kein Komma: <i>Er hofft, dass er gewinnt <b>und</b> dass seine Fans jubeln.</i></li>
+<li><b>Infinitivgruppen</b> – Komma ist Pflicht, wenn sie
+ <br>① mit <i>um, ohne, statt, anstatt, außer, als</i> eingeleitet werden: <i>Er trainiert, um zu gewinnen.</i>
+ <br>② von einem Nomen abhängen: <i>Sie hat den Wunsch, Profi zu werden.</i>
+ <br>③ durch ein Verweiswort angekündigt werden: <i>Er liebt es, zu spielen. Sie denkt daran, aufzuhören.</i>
+ <br>Sonst ist das Komma freigestellt.</li></ul>
+<p class="merke"><b>Komma-Trick:</b> Markiere alle gebeugten Verben. Zwischen zwei Teilsätzen steht fast immer ein Komma.</p>`,
+steps:`<ol><li>Unterstreiche alle gebeugten Verben (Personalformen).</li><li>Suche die Einleitewörter (weil, dass, der, die …).</li><li>Setze ein Komma vor jedes Einleitewort und nach dem Ende jedes Nebensatzes.</li><li>Eingeschoben? → Komma davor UND danach.</li></ol>`,
+tasks:[
+{type:'comma',title:'Kommas setzen',prompt:'Klicke zwischen die Wörter, um ein Komma zu setzen (erneut klicken entfernt es). Hier fehlen nur Pflichtkommas.',
+ items:[
+ {s:'Wer viel trainiert, hat bessere Chancen.',h:'„Wer viel trainiert“ ist ein Nebensatz.'},
+ {s:'Weil die Turniere bis zu vier Tage dauern, müssen die Spieler hart trainieren, wenn sie an der Spitze bleiben wollen.',h:'Zwei Nebensätze: mit „Weil“ und mit „wenn“.'},
+ {s:'Der Blogger, der eine Übertragung im Internet gesehen hatte, fragte seine Leser, ob Ego-Shooter als Sport gelten sollten.',h:'Ein eingeschobener Relativsatz und ein Nebensatz mit „ob“.'},
+ {s:'Viele Eltern wissen nicht, welche Spiele ihre Kinder spielen, weil sie sich mit der Game-Szene nicht auskennen.',h:'„welche“ und „weil“ leiten Nebensätze ein.'},
+ {s:'Huizinga erklärte, dass der Mensch spielt, um seine Fähigkeiten weiterzuentwickeln.',h:'dass-Satz + Infinitivgruppe mit „um … zu“.'},
+ {s:'Viele Jugendliche finden, dass Ego-Shooter spannend sind und dass sie die Konzentration fördern.',h:'Zwei gleichrangige dass-Sätze, verbunden mit „und“.'},
+ {s:'Die Autorin, die selbst mit Computerspielen aufgewachsen ist, betont, dass Spiele zur Kultur gehören, auch wenn nicht jedes Spiel wertvoll ist.',h:'Relativsatz (eingeschoben), dass-Satz, Nebensatz mit „auch wenn“.'},
+ {s:'Nachdem er gesehen hatte, wie viele Menschen den Live-Stream verfolgten, schrieb er einen Blogeintrag, den Hunderte kommentierten.',h:'Drei Nebensätze: nachdem …, wie …, den …'}
+ ],
+ help:{m:'Hinter jedem Satz siehst du, wie viele Kommas fehlen.'}},
+{type:'mc',title:'Satzbau verstehen',prompt:'Beantworte die Fragen zum Satzbau.',
+ items:[
+ {q:'„Der Spieler, <u>der gewonnen hat</u>, kommt aus Korea.“ – Was ist der unterstrichene Teil?',o:['ein Hauptsatz','ein eingeschobener Relativsatz','eine Infinitivgruppe'],c:1,x:'Relativpronomen „der“ + Verb am Ende, mitten im Hauptsatz.'},
+ {q:'Woran erkennt man einen Nebensatz am sichersten?',o:['an seiner Länge','am Einleitewort und dem gebeugten Verb am Ende','daran, dass er hinten steht'],c:1},
+ {q:'„Er hofft, dass er gewinnt und dass seine Fans jubeln.“ – Warum steht vor „und dass“ kein Komma?',o:['Weil zwei gleichrangige Nebensätze mit „und“ verbunden sind.','Weil das ein Fehler ist.','Weil „und“ nie ein Komma bekommt.'],c:0,x:'Gleichrangige Teilsätze mit „und/oder“ → kein Komma.'},
+ {q:'Bei welchem Satz ist das Komma Pflicht?',o:['Er versucht(,) zu gewinnen.','Er trainiert, um zu gewinnen.','Er beginnt zu trainieren.'],c:1,x:'„um … zu“ macht das Komma zur Pflicht.'}
+ ]},
+{type:'sort',title:'Einleitewörter bestimmen',prompt:'Was für ein Wort ist das?',
+ cats:['Subjunktion (leitet NS ein)','Relativpronomen','Fragewort (indirekte Frage)','nebenordnende Konjunktion'],
+ items:[{t:'weil',c:0},{t:'Das Spiel, <b>das</b> ich mag, …',c:1},{t:'Ich weiß nicht, <b>warum</b> …',c:2},{t:'und',c:3},{t:'obwohl',c:0},{t:'Die Spielerin, <b>deren</b> Team gewann, …',c:1},{t:'Sie fragt, <b>wann</b> …',c:2},{t:'denn',c:3},{t:'nachdem',c:0},{t:'aber',c:3}],
+ help:{a:'Subjunktionen und Relativpronomen leiten Nebensätze ein (Verb am Ende). Nebenordnende Konjunktionen (und, oder, aber, denn) verbinden gleichrangige Sätze – nach „denn“ steht das Verb an zweiter Stelle!'}},
+{type:'transform',title:'Sätze zu Satzgefügen verbinden',prompt:'Verbinde die Hauptsätze mit dem angegebenen Einleitewort zu einem Satzgefüge. Achte auf die Kommas!',
+ items:[
+ {src:'Die Turniere dauern bis zu vier Tage. Die Spieler müssen fit sein. (weil – am Satzanfang)',acc:['Weil die Turniere bis zu vier Tage dauern, müssen die Spieler fit sein.'],h:'Weil …, müssen …'},
+ {src:'Ananda Bräunig war auf der Gamescom. Sie hält Computerspiele für einen Teil unserer Kultur. (die – eingeschoben)',acc:['Ananda Bräunig, die auf der Gamescom war, hält Computerspiele für einen Teil unserer Kultur.'],h:'Ananda Bräunig, die …, hält …'},
+ {src:'Die Spiele sind ab 16 Jahren. Viele Jüngere spielen sie. (obwohl – am Satzanfang)',acc:['Obwohl die Spiele ab 16 Jahren sind, spielen viele Jüngere sie.','Obwohl die Spiele erst ab 16 Jahren sind, spielen viele Jüngere sie.'],h:'Obwohl …, spielen …'},
+ {src:'Er trainiert täglich. Er will das Finale erreichen. (um … zu)',acc:['Er trainiert täglich, um das Finale zu erreichen.'],h:'…, um … zu erreichen.'}
+ ],
+ strictPunct:true,
+ help:{m:'Das gebeugte Verb wandert im Nebensatz ans Ende.'}}
+]},
+/* ---------- 8 ---------- */
+{id:'kommas-grundregeln',title:'Kommas richtig setzen',short:'Aufzählungen, Appositionen, Anreden, Gegensätze und nachgestellte Zusätze.',group:'Zeichensetzung',
+info:`<table><tr><th>Regel</th><th>Beispiel</th></tr>
+<tr><td><b>Aufzählungen</b> – Komma zwischen gleichrangigen Wörtern/Wortgruppen, aber <b>nicht</b> vor <i>und, oder, sowie</i></td><td>Präzision, Konzentration und Disziplin</td></tr>
+<tr><td><b>Entgegensetzende Konjunktionen</b> – Komma vor <i>aber, sondern, doch, jedoch</i> (wenn sie Satzteile verbinden)</td><td>nicht gefährlich, sondern spannend</td></tr>
+<tr><td><b>Apposition</b> (nachgestellte Beifügung) – Komma davor und danach</td><td>Manfred Spitzer, ein Hirnforscher, warnt …</td></tr>
+<tr><td><b>Anrede und Ausruf</b></td><td>Lisa, kommst du? – Ach, schon vorbei!</td></tr>
+<tr><td><b>Nachgestellte Erläuterungen</b> – eingeleitet mit <i>z. B., vor allem, insbesondere, und zwar, das heißt</i></td><td>Viele Genres sind beliebt, zum Beispiel Rollenspiele.</td></tr>
+<tr><td><b>Hauptsätze ohne Konjunktion</b> (Satzreihe)</td><td>Sie spielt Fußball, er zockt lieber.</td></tr></table>
+<p class="merke"><b>Kann-Komma:</b> Zwischen zwei Hauptsätzen, die mit <i>und/oder</i> verbunden sind, <b>darf</b> man ein Komma setzen, muss aber nicht. In den Klickaufgaben kommen nur Pflichtkommas vor.</p>`,
+steps:`<ol><li>Gibt es eine Aufzählung? → Komma zwischen den Gliedern, nicht vor „und“.</li><li>Steht „aber/sondern/doch“ im Satz? → Komma davor.</li><li>Wird jemand angesprochen? → Komma nach dem Namen.</li><li>Wird etwas erklärt (ein Hirnforscher; zum Beispiel …)? → Komma.</li></ol>`,
+tasks:[
+{type:'comma',title:'Kommas setzen',prompt:'Klicke zwischen die Wörter, um Kommas zu setzen.',
+ items:[
+ {s:'Für E-Sport braucht man Präzision, Konzentration und Disziplin.',h:'Aufzählung – vor „und“ kein Komma.'},
+ {s:'Manfred Spitzer, ein bekannter Hirnforscher, warnt vor Ego-Shootern.',h:'Apposition: Komma davor und danach.'},
+ {s:'Die Spiele sind nicht gefährlich, sondern spannend.',h:'Komma vor „sondern“.'},
+ {s:'Lisa, hast du den Live-Stream gesehen?',h:'Anrede.'},
+ {s:'Ach, das Turnier ist schon vorbei.',h:'Ausruf.'},
+ {s:'Viele Genres sind beliebt, zum Beispiel Strategiespiele und Rollenspiele.',h:'Nachgestellte Erläuterung mit „zum Beispiel“.'},
+ {s:'Das Turnier findet in Köln statt, und zwar im August.',h:'Komma vor „und zwar“.'},
+ {s:'Die Profis trainieren täglich, aber sie treiben auch andere Sportarten.',h:'Komma vor „aber“.'},
+ {s:'Sie spielt gern Fußball, er zockt lieber am Computer.',h:'Zwei Hauptsätze ohne Konjunktion.'}
+ ],
+ help:{m:'Hinter jedem Satz siehst du, wie viele Kommas fehlen.'}},
+{type:'sort',title:'Welche Kommaregel gilt?',prompt:'Ordne jedem Satz die Regel zu, die das Komma erklärt.',
+ cats:['Aufzählung','Gegensatz (aber/sondern)','Apposition','Anrede/Ausruf','Erläuterung (z. B., vor allem)'],
+ items:[{t:'Eddy, ein erfahrener Spieler, trainiert täglich.',c:2},{t:'Wir brauchen Snacks, Getränke und Kabel.',c:0},{t:'Oh, das war knapp!',c:3},{t:'Er ist nicht müde, sondern hochkonzentriert.',c:1},{t:'Viele Fans kamen, vor allem aus Europa.',c:4},{t:'Herr Klein, darf ich mitspielen?',c:3},{t:'Köln, die Stadt der Gamescom, ist voller Fans.',c:2},{t:'Das Spiel ist schwer, aber fair.',c:1}],
+ help:{a:'Apposition = ein Nomen wird durch eine zweite Bezeichnung näher erklärt (Eddy = ein erfahrener Spieler).'}},
+{type:'mc',title:'Regeln im Überblick',prompt:'Kreuze die richtige Antwort an.',
+ items:[
+ {q:'Vor „und“ in einer Aufzählung steht …',o:['immer ein Komma','kein Komma','ein Semikolon'],c:1},
+ {q:'Vor „aber“, „sondern“ und „doch“ steht …',o:['ein Komma','nur bei langen Sätzen ein Komma','nie ein Komma'],c:0},
+ {q:'Eine Apposition mitten im Satz wird …',o:['nur vorn mit Komma abgetrennt','von zwei Kommas eingeschlossen','in Klammern gesetzt (Pflicht)'],c:1},
+ {q:'Bei welchem Satz ist das Komma <b>freigestellt</b>?',o:['Er spielt Fußball(,) und sie zockt am Computer.','Eddy(,) ein Profi(,) trainiert viel.','Sie ist nicht müde(,) sondern wach.'],c:0,x:'Zwei Hauptsätze mit „und“ → Kann-Komma.'}
+ ]},
+{type:'transform',title:'Sätze erweitern – mit Komma',prompt:'Baue den Zusatz in den Satz ein und setze die Kommas richtig. Schreibe den ganzen Satz.',strictPunct:true,
+ items:[
+ {src:'Manfred Spitzer warnt vor Ego-Shootern. <i>(Zusatz direkt nach dem Namen: ein bekannter Hirnforscher)</i>',acc:['Manfred Spitzer, ein bekannter Hirnforscher, warnt vor Ego-Shootern.'],h:'Apposition → Komma davor und danach.'},
+ {src:'Viele Spiele sind erst ab 16 Jahren freigegeben. <i>(Zusatz am Satzende: vor allem Ego-Shooter)</i>',acc:['Viele Spiele sind erst ab 16 Jahren freigegeben, vor allem Ego-Shooter.'],h:'Nachgestellte Erläuterung mit „vor allem“ → Komma davor.'},
+ {src:'Das Finale war nicht langweilig. Es war spannend. <i>(Verbinde mit „sondern“ zu einem Satz.)</i>',acc:['Das Finale war nicht langweilig, sondern spannend.'],h:'Komma vor „sondern“.'},
+ {src:'Hast du das Finale gesehen? <i>(Anrede am Satzanfang: Tim)</i>',acc:['Tim, hast du das Finale gesehen?'],h:'Nach der Anrede steht ein Komma.'},
+ {src:'Für das Turnier braucht man eine Maus. Man braucht eine Tastatur. Man braucht ein Headset. <i>(Mache eine Aufzählung in einem Satz daraus.)</i>',acc:['Für das Turnier braucht man eine Maus, eine Tastatur und ein Headset.','Für das Turnier braucht man Maus, Tastatur und Headset.'],h:'Kein Komma vor „und“.'}
+ ],
+ help:{m:'Denke an: Apposition, nachgestellte Erläuterung, „sondern“, Anrede, Aufzählung.'}}
+]},
+/* ---------- 9 ---------- */
+{id:'das-dass',title:'Das oder dass?',short:'Artikel, Pronomen oder Konjunktion – mit der Ersatzprobe sicher entscheiden.',group:'Rechtschreibung',
+info:`<table><tr><th>Wortart</th><th>Ersatzprobe</th><th>Beispiel</th></tr>
+<tr><td><b>das</b> – Artikel</td><td>dieses/ein</td><td><u>Das</u> Turnier dauert vier Tage.</td></tr>
+<tr><td><b>das</b> – Relativpronomen</td><td>welches</td><td>Das Spiel, <u>das</u> ich mag, ist ab 16.</td></tr>
+<tr><td><b>das</b> – Demonstrativpronomen</td><td>dies/dieses</td><td><u>Das</u> ist nicht fair!</td></tr>
+<tr><td><b>dass</b> – Konjunktion (Subjunktion)</td><td><b>nicht ersetzbar</b></td><td>Ich finde, <u>dass</u> E-Sport ein Sport ist.</td></tr></table>
+<p><b>„dass“</b> leitet einen Nebensatz ein (Verb am Ende) und steht oft nach Verben des Sagens, Denkens und Fühlens: <i>glauben, meinen, hoffen, wissen, behaupten, sich freuen …</i> Feste Verbindungen: <i>sodass / so dass, ohne dass, anstatt dass</i>.</p>
+<p class="merke"><b>Ersatzprobe:</b> Kannst du „dieses“, „welches“ oder „dies“ einsetzen? → <b>das</b>. Wenn nicht → <b>dass</b>.</p>`,
+steps:`<ol><li>Setze „dieses“, „welches“ oder „dies“ ein.</li><li>Ergibt der Satz noch Sinn? → das</li><li>Ergibt er keinen Sinn? → dass</li><li>Vor „dass“ steht fast immer ein Komma.</li></ol>`,
+tasks:[
+{type:'gap',title:'das oder dass?',prompt:'Setze „das“ oder „dass“ ein (am Satzanfang groß).',mMode:'input',
+ text:`<p>1. Ich finde, [[dass|das]] E-Sport ein echter Sport ist.</p><p>2. [[Das|Dass]] Turnier dauert vier Tage.</p><p>3. Das Spiel, [[das|dass]] ich am liebsten spiele, ist ab 16.</p><p>4. [[Das|Dass]] ist nicht fair!</p><p>5. Es ist bekannt, [[dass|das]] viele Jugendliche lange spielen.</p><p>6. Er trainiert so viel, [[dass|das]] er kaum Freizeit hat.</p><p>7. Ich glaube nicht, [[dass|das]] [[das|dass]] stimmt.</p><p>8. Das Problem, [[das|dass]] Heidi anspricht, ist die Suchtgefahr.</p><p>9. [[Dass|Das]] Gewalt gezeigt wird, kann man kritisieren.</p><p>10. Er wusste nicht, [[dass|das]] [[das|dass]] Spiel erst ab 18 ist.</p>`,
+ help:{a:'Mache bei jeder Lücke die Ersatzprobe: <i>dieses / welches / dies</i>. Passt eins davon → „das“. Sonst → „dass“.',m:'Ersatzprobe: dieses – welches – dies.'}},
+{type:'sort',title:'Welches „das“ ist es?',prompt:'Bestimme die Wortart des hervorgehobenen Wortes.',
+ cats:['Artikel','Relativpronomen','Demonstrativpronomen','Konjunktion „dass“'],
+ items:[{t:'<b>Das</b> Finale war spannend.',c:0},{t:'Das Team, <b>das</b> gewonnen hat, kommt aus Korea.',c:1},{t:'<b>Das</b> glaube ich nicht.',c:2},{t:'Ich hoffe, <b>dass</b> wir gewinnen.',c:3},{t:'Hast du <b>das</b> neue Spiel schon?',c:0},{t:'Ein Spiel, <b>das</b> Spaß macht, spielt man gern.',c:1},{t:'<b>Das</b> war knapp!',c:2},{t:'Es ist klar, <b>dass</b> Training wichtig ist.',c:3}],
+ help:{a:'Artikel → steht vor einem Nomen (das Finale). Relativpronomen → nach einem Komma, bezieht sich auf ein Nomen davor (welches). Demonstrativpronomen → steht allein (dies).'}},
+{type:'errors',title:'Fehlersuche: das/dass',prompt:'Klicke alle falschen „das“ bzw. „dass“ an.',
+ text:'Ich finde, {das>dass|DD} E-Sport ein echter Sport ist. Das Training, {dass>das|DD} die Profis absolvieren, ist sehr hart. Viele glauben nicht, dass das stimmt. Doch {dass>das|DD} ist wirklich so. Es ist wichtig, {das>dass|DD} man auch Pausen macht. Das Spiel, das ich am liebsten mag, ist ein Strategiespiel.'},
+{type:'write',title:'Eigene Sätze schreiben',prompt:'Schreibe vier Sätze zum Thema E-Sport: je einen mit „das“ als Artikel, als Relativpronomen, als Demonstrativpronomen und einen mit „dass“.',
+ starters:['Das Turnier …','Das Spiel, das …','Das finde ich …','Ich glaube, dass …'],
+ help:{a:'Nutze die Satzanfänge (anklicken fügt sie ein) und ergänze sie.',m:'Denke an das Komma vor dem Relativpronomen und vor „dass“.'},
+ minWords:20,mustInclude:['das','dass'],
+ checklist:['Ein Satz mit Artikel „das“','Ein Satz mit Relativpronomen „das“ (ersetzbar durch „welches“)','Ein Satz mit „das“ = dies','Ein Satz mit „dass“ und Komma davor'],
+ model:'Das Turnier in Köln dauert vier Tage.\nDas Spiel, das am häufigsten gespielt wird, ist ein Strategiespiel.\nDas finde ich überraschend.\nIch glaube, dass E-Sport noch beliebter wird.'}
+]},
+/* ---------- 10 ---------- */
+{id:'kommasetzung-training',title:'Kommasetzung trainieren',short:'Gemischtes Training: alle Kommaregeln anwenden, begründen und im eigenen Text nutzen.',group:'Zeichensetzung',
+info:`<h4>Komma-Check in vier Schritten</h4>
+<ol><li><b>Verben zählen:</b> Markiere alle gebeugten Verben. Mehrere Verben = mehrere Teilsätze → Grenzen suchen.</li>
+<li><b>Einleitewörter:</b> Vor <i>weil, dass, obwohl, der, die, das, ob, wie …</i> steht ein Komma; der Nebensatz endet nach dem Verb → wieder Komma (wenn der Satz weitergeht).</li>
+<li><b>Einschübe:</b> Appositionen und eingeschobene Nebensätze werden von zwei Kommas eingeschlossen.</li>
+<li><b>Aufzählungen & Konjunktionen:</b> Komma zwischen Aufzählungsgliedern (nicht vor und/oder), Komma vor aber/sondern/doch; Infinitivgruppen mit um/ohne/statt.</li></ol>
+<p class="merke">Tipp: Lies deinen Text laut. Wo du eine kleine Pause machst, steht <i>oft</i> ein Komma – aber prüfe immer mit den Regeln, denn die Pause allein ist kein sicheres Kriterium.</p>`,
+steps:`<ol><li>Verben markieren.</li><li>Einleitewörter suchen.</li><li>Einschübe einrahmen.</li><li>Aufzählungen und „aber/sondern“ prüfen.</li></ol>`,
+tasks:[
+{type:'comma',title:'Forumsbeitrag: Kommas setzen',prompt:'Setze in diesem Forumsbeitrag alle Pflichtkommas.',
+ items:[
+ {s:'Liebe Leserinnen und Leser, heute geht es um eine Frage, die viele bewegt.',h:'Anrede + Relativsatz.'},
+ {s:'Eddy, ein erfahrener Spieler, meint, dass E-Sport viel Disziplin erfordert.',h:'Apposition + dass-Satz.'},
+ {s:'Er trainiert täglich, obwohl er nebenbei noch zur Schule geht.',h:'Nebensatz mit „obwohl“.'},
+ {s:'Heidi sieht das anders, denn sie hält die Spiele für gefährlich.',h:'Komma vor „denn“.'},
+ {s:'Sie fordert ein Verbot, um Jugendliche zu schützen.',h:'Infinitivgruppe mit „um … zu“.'},
+ {s:'Ob ein Verbot sinnvoll ist, muss jeder selbst entscheiden.',h:'Vorangestellter Nebensatz.'},
+ {s:'Spiele wie Strategie-, Sport- und Rollenspiele sind jedenfalls weniger umstritten.',h:'Aufzählung (auch bei Ergänzungsstrichen).'},
+ {s:'Die Autorin Ananda Bräunig, die selbst gern spielt, wünscht sich einen offenen Umgang mit Games, aber keine Verharmlosung.',h:'Eingeschobener Relativsatz + „aber“.'}
+ ],
+ help:{m:'Hinter jedem Satz siehst du, wie viele Kommas fehlen.'}},
+{type:'sort',title:'Kommas begründen',prompt:'Warum steht das <b>fett markierte</b> Komma?',
+ cats:['Aufzählung','Nebensatz','Einschub/Apposition','Infinitivgruppe','aber/sondern/denn','Anrede/Ausruf'],
+ items:[{t:'Sie trainiert<b>,</b> weil sie gewinnen will.',c:1},{t:'Tim<b>,</b> kommst du mit?',c:5},{t:'Er kam<b>,</b> ohne sich anzumelden.',c:3},{t:'Wir brauchen Maus<b>,</b> Tastatur und Headset.',c:0},{t:'Köln<b>,</b> die Messestadt, ist voll.',c:2},{t:'Er verlor<b>,</b> aber er war nicht traurig.',c:4},{t:'Das Spiel<b>,</b> das ich mag, ist ab 12.',c:1},{t:'Sie übte<b>,</b> statt zu schlafen.',c:3}],
+ help:{a:'Infinitivgruppe = „zu“ + Verb im Infinitiv (anzumelden, zu schlafen). Nebensatz = Einleitewort + Verb am Ende.'}},
+{type:'fix',title:'Text ohne Kommas',prompt:'In diesem Text fehlen alle Kommas. Setze sie direkt im Feld.',
+ start:'Als die Gamescom begann warteten Tausende vor den Hallen. Viele trugen Kostüme die ihren Lieblingsfiguren nachempfunden waren. Ein Junge der extra aus Hamburg angereist war erzählte dass er seit Wochen auf diesen Tag gewartet habe. Er wollte unbedingt das neue Spiel testen ohne lange anstehen zu müssen. Leider war die Schlange riesig aber er blieb trotzdem.',
+ target:'Als die Gamescom begann, warteten Tausende vor den Hallen. Viele trugen Kostüme, die ihren Lieblingsfiguren nachempfunden waren. Ein Junge, der extra aus Hamburg angereist war, erzählte, dass er seit Wochen auf diesen Tag gewartet habe. Er wollte unbedingt das neue Spiel testen, ohne lange anstehen zu müssen. Leider war die Schlange riesig, aber er blieb trotzdem.',
+ help:{a:'Es fehlen 7 Kommas. Achte auf: als, die, der (eingeschoben!), dass, ohne … zu, aber. Nach dem Prüfen werden Wörter markiert, an denen noch etwas fehlt.',m:'Es fehlen 7 Kommas.'}},
+{type:'write',title:'Komma-Bericht schreiben',prompt:'Schreibe einen kurzen Bericht (5–8 Sätze) über einen erfundenen Besuch auf der Gamescom oder bei einem E-Sport-Turnier. Baue dabei bewusst diese Kommafälle ein: einen Relativsatz, einen dass-Satz, eine Infinitivgruppe mit „um … zu“, eine Apposition und eine Aufzählung.',
+ starters:['Am Samstag fuhr ich mit …, einem …, nach …','Dort sahen wir viele Fans, die …','Wir hatten …, … und … dabei.','Wir standen früh auf, um … zu …','Ich war froh, dass …'],
+ help:{a:'Klicke die Satzanfänge an und ergänze sie. Jeder Satzanfang übt einen Kommafall: Apposition, Relativsatz, Aufzählung, „um … zu“, dass-Satz.',m:'Kontrolliere am Ende jeden Satz mit dem Komma-Check aus dem Infokasten.'},
+ minWords:60,mustInclude:['dass','um'],minCommas:6,
+ checklist:['Relativsatz mit Komma davor (und danach, wenn er eingeschoben ist)','dass-Satz mit Komma','„um … zu“ mit Komma','Apposition mit zwei Kommas','Aufzählung ohne Komma vor „und“'],
+ model:'Am Samstag fuhr ich mit meinem Bruder, einem großen E-Sport-Fan, nach Köln. Schon am Eingang warteten Hunderte, die alle zur Gamescom wollten. Wir hatten Snacks, Getränke und eine Powerbank dabei. Mein Bruder wollte früh da sein, um das neue Rennspiel zu testen. In der Halle, die riesig und laut war, verloren wir uns kurz aus den Augen. Am Ende war ich froh, dass wir uns am Infostand wiedergefunden hatten.'}
+]}
+];
+
+const SHORT=['Schachtelsätze','Synonyme & Kohärenz','Redewiedergabe','Fehler diagnostizieren','Getrennt/zusammen','Groß/klein','Kommas im Satzgefüge','Kommas richtig setzen','das oder dass','Kommasetzung trainieren'];
+
+const TEST={id:'abschlusstest',title:'Abschlusstest',short:'Alle zehn Themen in einem Test – zeig, was du gelernt hast!',group:'Abschluss',
+info:`<p>Der Abschlusstest prüft jedes der zehn Themen einmal ab. <b>Jede Aufgabe kannst du nur einmal abgeben</b> – danach ist sie gesperrt. Die Lösungen siehst du erst, wenn alle Aufgaben abgegeben sind. Einen Neustart kann nur deine Lehrkraft freigeben. Ganz unten bekommst du dein <b>Gesamtergebnis</b> mit einer Auswertung pro Thema – so siehst du, was du noch einmal wiederholen solltest.</p><p>🏆 <b>Pokale:</b> 🥇 Gold ab 85 % · 🥈 Silber ab 70 % · 🥉 Bronze ab 50 %. Mit einem Pokal schaltest du deine <b>Siegerurkunde</b> frei.</p>
+<p class="merke"><b>Tipp:</b> Arbeite ohne die Infokästen der Themen. Bei jeder Aufgabe steht, zu welchem Thema sie gehört.</p>`,
+tasks:[
+{topic:0,type:'mc',title:'Schachtelsätze vermeiden',
+ items:[
+ {q:'Welche Strategie hilft am meisten gegen Schachtelsätze?',o:['mehr Kommas setzen','Informationen auf mehrere Sätze verteilen und mit Konnektoren verbinden','möglichst viele Fremdwörter verwenden'],c:1},
+ {q:'Welche Version ist am besten lesbar?',o:['Die Fans, die, weil das Finale, das um 20 Uhr begann, spannend war, jubelten, blieben lange.','Das Finale begann um 20 Uhr und war spannend. Deshalb jubelten die Fans und blieben lange.','Die Fans blieben, weil sie, als das Finale, das spannend war, begann, jubelten, lange.'],c:1},
+ {q:'Ab welcher Satzlänge solltest du einen Satz kritisch prüfen?',o:['ab etwa 8 Wörtern','ab etwa 20 Wörtern','ab etwa 50 Wörtern'],c:1}
+ ]},
+{topic:1,type:'gap',title:'Synonyme & Textkohärenz: Konnektoren',prompt:'Setze das passende Verknüpfungswort ein.',
+ text:`<p>Das Turnier war ausverkauft. [[Deshalb|Trotzdem|Außerdem]] mussten viele Fans den Live-Stream schauen.</p><p>Das Team aus Korea war der Favorit. [[Trotzdem|Deshalb|Zudem]] gewann am Ende ein Team aus Dänemark.</p><p>Die Sieger bekamen ein Preisgeld. [[Außerdem|Trotzdem|Folglich]] erhielten sie einen Pokal.</p>`},
+{topic:1,type:'mc',title:'Synonyme & Textkohärenz: Wortwahl',
+ items:[
+ {q:'„Das Spiel dauerte drei Stunden. ___ war bis zur letzten Minute spannend.“ Was passt sachlich?',o:['Das Ding','Die Partie','Das Gezocke'],c:1},
+ {q:'Was bedeutet „Kohärenz“?',o:['Ein Text enthält viele Fremdwörter.','Ein Text hängt inhaltlich und sprachlich zusammen.','Ein Text ist besonders kurz.'],c:1}
+ ]},
+{topic:2,type:'transform',title:'Redewiedergabe: indirekte Rede',prompt:'Forme in indirekte Rede um.',
+ items:[
+ {src:'Der Trainer sagt: „Wir sind gut vorbereitet.“',acc:['Der Trainer sagt, sie seien gut vorbereitet.','Der Trainer sagt, dass sie gut vorbereitet seien.'],h:'wir → sie; sind → seien'},
+ {src:'Lisa erklärt: „Ich habe keine Zeit.“',acc:['Lisa erklärt, sie habe keine Zeit.','Lisa erklärt, dass sie keine Zeit habe.'],h:'ich → sie; habe'},
+ {src:'Die Fans rufen: „Wir haben gewonnen!“',acc:['Die Fans rufen, sie hätten gewonnen.','Die Fans rufen, dass sie gewonnen hätten.'],h:'haben (Konj. I) = Indikativ → hätten'}
+ ]},
+{topic:3,type:'errors',title:'Fehler diagnostizieren',prompt:'Klicke alle falsch geschriebenen Wörter an.',
+ text:'Am {wochenende>Wochenende|GK} war ich auf einem E-Sport-Turnier. Es war {interessannt,>interessant,|D} wie konzentriert die Profis spielen. Ich hätte nicht gedacht, {das>dass|DD} sie so ruhig bleiben. Die {Endscheidung>Entscheidung|W} fiel erst in der letzten Runde. Die Stimmung in der Halle war {grossartig.>großartig.|S} Nächstes Jahr will ich unbedingt wieder {hin fahren.>hinfahren.|GZ}'},
+{topic:4,type:'gap',title:'Getrennt- und Zusammenschreibung',prompt:'Wähle bzw. schreibe die richtige Schreibweise.',mMode:'input',
+ text:`<p>1. Die Siegerehrung wird um 18 Uhr [[stattfinden|statt finden]].</p><p>2. Beim [[Autofahren|Auto fahren|autofahren]] sollte man nicht aufs Handy schauen.</p><p>3. Ich werde pünktlich [[da sein|dasein]].</p><p>4. Es würde mir [[leidtun|leid tun|Leid tun]], wenn du nicht kommst.</p><p>5. Mein Bruder möchte im Winter [[Ski fahren|skifahren]].</p>`},
+{topic:5,type:'gap',title:'Groß- und Kleinschreibung',prompt:'Wähle bzw. schreibe die richtige Schreibweise.',mMode:'input',
+ text:`<p>1. Wir treffen uns morgen [[Nachmittag|nachmittag]].</p><p>2. Sie spielt [[sonntags|Sonntags]] immer Fußball.</p><p>3. Beim [[Trainieren|trainieren]] hört er Musik.</p><p>4. Wir wünschen dir alles [[Gute|gute]].</p><p>5. Wer von euch spielt am [[schnellsten|Schnellsten]]?</p><p>6. Sehr geehrter Herr Klein, vielen Dank für [[Ihre|ihre]] Nachricht.</p>`},
+{topic:6,type:'comma',title:'Kommas in komplexen Satzgefügen',prompt:'Setze alle Pflichtkommas.',
+ items:[
+ {s:'Die Spielerin, die das Finale gewann, war erst siebzehn.'},
+ {s:'Weil das Internet ausfiel, musste das Spiel unterbrochen werden, bis die Technik wieder lief.'},
+ {s:'Er wusste nicht, ob er gewinnen würde, aber er gab alles.'},
+ {s:'Sie trainiert jeden Tag, um ins Nationalteam zu kommen.'}
+ ]},
+{topic:7,type:'comma',title:'Kommas richtig setzen',prompt:'Setze alle Pflichtkommas.',
+ items:[
+ {s:'Wir brauchen eine Maus, eine Tastatur, ein Headset und viel Geduld.'},
+ {s:'Herr Klein, unser Deutschlehrer, spielt selbst gern.'},
+ {s:'Das war kein Glück, sondern harte Arbeit.'},
+ {s:'Viele Spiele sind beliebt, vor allem Strategiespiele.'}
+ ]},
+{topic:8,type:'gap',title:'Das oder dass?',prompt:'Setze „das“ oder „dass“ ein.',mMode:'input',
+ text:`<p>1. Ich hoffe, [[dass|das]] wir gewinnen.</p><p>2. Das Spiel, [[das|dass]] wir gestern gespielt haben, war schwer.</p><p>3. [[Das|Dass]] habe ich nicht gewusst.</p><p>4. Es ist schade, [[dass|das]] [[das|dass]] Turnier ausfällt.</p><p>5. [[Dass|Das]] er verloren hat, ärgert ihn.</p>`},
+{topic:9,type:'fix',title:'Kommasetzung: Text ohne Kommas',prompt:'Setze alle fehlenden Kommas direkt im Feld.',
+ start:'Nachdem das Finale vorbei war feierten die Fans noch lange. Lina eine Schülerin aus Köln erzählte dass sie extra früh aufgestanden sei. Sie wollte die Profis sehen die sie aus dem Internet kannte. Sie hatte Getränke Snacks und eine Kamera dabei. Am Ende war sie müde aber glücklich.',
+ target:'Nachdem das Finale vorbei war, feierten die Fans noch lange. Lina, eine Schülerin aus Köln, erzählte, dass sie extra früh aufgestanden sei. Sie wollte die Profis sehen, die sie aus dem Internet kannte. Sie hatte Getränke, Snacks und eine Kamera dabei. Am Ende war sie müde, aber glücklich.',
+ help:{a:'Es fehlen 7 Kommas.',m:'Es fehlen 7 Kommas.'}}
+]};
+</script>
+
+<script>
+/* ===================== LOGIK ===================== */
+const KEY='deutsch10-lernmodul-v2';
+let TESTHOOKS=[];
+const LV={a:{name:'Anfänger',icon:'🌱',desc:'viel Hilfestellung: Auswahllisten, Tipps, Satzanfänge'},m:{name:'Mittelfeld',icon:'🧭',desc:'leichte Hilfestellung: Tipps auf Wunsch, Wortspeicher'},e:{name:'Experte',icon:'🎯',desc:'ohne Hilfestellung, mit Zusatz-Challenges'}};
+const TYPES={mc:'Multiple Choice',gap:'Lückentext',comma:'Kommas setzen',errors:'Fehler finden',sort:'Zuordnen',write:'Schreibaufgabe',fix:'Text überarbeiten',transform:'Umformen',order:'Reihenfolge'};
+let state=load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.lv&&s.sc){s.at=s.at||{};return s}}catch(e){}return{lv:{},sc:{},at:{}}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+const $=(s,r=document)=>r.querySelector(s);
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function strip(h){const d=document.createElement('div');d.innerHTML=h;return d.textContent}
+let uidc=0;const uid=()=>'u'+(++uidc);
+
+function visibleTasks(t,lv){return t.tasks.map((k,i)=>({k,i})).filter(o=>!o.k.levels||o.k.levels.includes(lv))}
+function topicProgress(t){const lv=state.lv[t.id];const sc=state.sc[t.id]||{};const list=lv?visibleTasks(t,lv):t.tasks.map((k,i)=>({k,i}));let done=0,sum=0;list.forEach(o=>{if(sc[o.i]!=null){done++;sum+=sc[o.i]}});return{done,total:list.length,avg:done?Math.round(sum/done*100):0}}
+function att(t,i){state.at=state.at||{};state.at[t.id]=state.at[t.id]||{};return state.at[t.id][i]=state.at[t.id][i]||{n:0}}
+function peekAtt(t,i){return((state.at||{})[t.id]||{})[i]||{n:0}}
+function testDone(){return TEST.tasks.every((k,i)=>peekAtt(TEST,i).n>0)}
+function award(t,i,f){
+  const xp0=totalXP(),r0=rankOf(xp0);const msgs=[];const a=att(t,i);a.n++;a.best=Math.max(a.best||0,f);
+  state.sc[t.id]=state.sc[t.id]||{};const sc=state.sc[t.id];let mode='none';
+  if(t===TEST){if(a.n===1){sc[i]=f;mode='test'}}
+  else if(a.n===1){sc[i]=f;a.f1=f;mode='first';
+    if(f>=1){state.combo=(state.combo||0)+1;if(state.combo>=3){const b=10*Math.min(state.combo,5);state.bonus=(state.bonus||0)+b;msgs.push(['combo',`🔥 Combo ×${state.combo}! +${b} Bonus-XP`])}}else state.combo=0}
+  else if(a.n===2&&!a.rev){sc[i]=Math.max(sc[i]||0,a.f1+Math.max(0,f-a.f1)*0.5);mode='second'}
+  state.badges=state.badges||{};
+  TOPICS.forEach((tp,ti)=>{if(!state.badges[tp.id]&&badgeEarned(tp)){state.badges[tp.id]=1;msgs.push(['badge',`${BADGES[ti].i} Abzeichen freigeschaltet: <b>${BADGES[ti].n}</b>`])}});
+  save();
+  const xp1=totalXP(),g=xp1-xp0,r1=rankOf(xp1);
+  if(g>0)msgs.unshift(['xp',`+${g} XP`]);
+  if(r1>r0)msgs.push(['rank',`${RANKS[r1].i} Aufstieg! Du bist jetzt <b>${RANKS[r1].n}</b>`]);
+  msgs.forEach((m,k)=>setTimeout(()=>toast(m[1],m[0]),k*1000));
+  updateTop();
+  const bg=document.querySelector('.badgegoal');if(bg&&t!==TEST)bg.outerHTML=badgeGoal(t);
+  return{mode,gained:g,n:a.n};
+}
+function updateTop(){const x=totalXP(),r=rankOf(x),nx=RANKS[r+1];const pct=nx?Math.round((x-RANKS[r].x)/(nx.x-RANKS[r].x)*100):100;
+  $('#topstat').innerHTML=`${(state.combo||0)>=2?`<span class="combo">🔥×${state.combo}</span>`:''}<span>${RANKS[r].i} <b>${RANKS[r].n}</b> · ${x} XP</span><span class="xpbar" title="${nx?`noch ${nx.x-x} XP bis ${nx.n}`:'Höchster Rang erreicht'}"><i style="width:${pct}%"></i></span>`;buildBar()}
+
+/* ---------- Routing ---------- */
+const ALL=()=>[...TOPICS,TEST];
+const RANKS=[{n:'Rookie',i:'🥚',x:0},{n:'Amateur',i:'🎮',x:300},{n:'Semi-Pro',i:'⚡',x:900},{n:'Pro',i:'🔥',x:1800},{n:'Champion',i:'👑',x:3000}];
+const BADGES=[{i:'🧩',n:'Entschachtler'},{i:'🔗',n:'Kohärenz-Künstler'},{i:'🎙️',n:'Konjunktiv-Meister'},{i:'🔍',n:'Fehlerdetektiv'},{i:'✂️',n:'Getrennt-Zusammen-Profi'},{i:'🔠',n:'Groß-Klein-Kenner'},{i:'🏗️',n:'Satzgefüge-Architekt'},{i:'✒️',n:'Komma-Profi'},{i:'🕵️',n:'das/dass-Detektiv'},{i:'🏅',n:'Komma-Champion'}];
+function totalXP(){let s=0;ALL().forEach(t=>{Object.values(state.sc[t.id]||{}).forEach(v=>s+=Math.round(v*100))});return s+(state.bonus||0)}
+function rankOf(x){let r=0;RANKS.forEach((k,j)=>{if(x>=k.x)r=j});return r}
+function badgeEarned(t){const p=topicProgress(t);return !!state.lv[t.id]&&p.total>0&&p.done===p.total&&p.avg>=80}
+function hasBadge(ti){return !!(state.badges&&state.badges[TOPICS[ti].id])}
+function trophyOf(p){return p==null?null:p>=85?{i:'🥇',n:'Gold-Pokal'}:p>=70?{i:'🥈',n:'Silber-Pokal'}:p>=50?{i:'🥉',n:'Bronze-Pokal'}:null}
+function toast(html,kind){const w=$('#toasts');while(w.children.length>=3)w.firstChild.remove();const t=el('div','toast '+(kind||''),html);w.append(t);setTimeout(()=>t.classList.add('out'),kind==='xp'?1700:3000);setTimeout(()=>t.remove(),kind==='xp'?2100:3500)}
+function testSummary(){const sc=state.sc[TEST.id]||{};const per={};TEST.tasks.forEach((k,i)=>{(per[k.topic]=per[k.topic]||[]).push(sc[i])});let open=0;const rows=TOPICS.map((t,ti)=>{const arr=per[ti]||[];const done=arr.filter(x=>x!=null);open+=arr.length-done.length;return{t,ti,pc:done.length?Math.round(done.reduce((a,b)=>a+b,0)/arr.length*100):null}});return{rows,open,total:Math.round(rows.reduce((a,r)=>a+(r.pc||0),0)/TOPICS.length)}}
+const EST={mc:k=>k.items.length*0.75,gap:k=>(k.text.match(/\[\[/g)||[]).length*0.4,comma:k=>k.items.length*0.6,errors:()=>4,sort:k=>k.items.length*0.3,write:()=>10,fix:()=>6,transform:k=>k.items.length*1.2,order:()=>3};
+function minutes(t,lv){const l=lv||state.lv[t.id]||'m';return Math.max(5,Math.round(visibleTasks(t,l).reduce((a,o)=>a+EST[o.k.type](o.k),0)/5)*5)}
+function buildBar(){const bar=$('#topicbar');bar.innerHTML='';const h=location.hash.slice(1);ALL().forEach((t,i)=>{const isT=t===TEST;const a=el('a',(isT?'test ':'')+('t-'+t.id===h?'on ':''),isT?`🏆 Finale: Abschlusstest`:`<b>${i+1}</b>${SHORT[i]}${hasBadge(i)?' '+BADGES[i].i:''}`);a.href='#t-'+t.id;a.title=t.title;if(!isT){const p=topicProgress(t);if(p.total&&p.done===p.total)a.classList.add('done')}bar.append(a)});const on=bar.querySelector('a.on');if(on&&bar.scrollWidth>bar.clientWidth)bar.scrollLeft=on.offsetLeft-bar.clientWidth/2+on.offsetWidth/2}
+function route(){const h=location.hash.slice(1);const t=ALL().find(x=>'t-'+x.id===h);h==='urkunde'?renderCert():h==='lehrkraft'?renderTeacher():t?renderTopic(t):renderHome();window.scrollTo(0,0);updateTop()}
+window.addEventListener('hashchange',route);
+
+/* ---------- Startseite ---------- */
+function renderHome(){
+  const app=$('#app');app.innerHTML='';
+  app.append(arenaHero());
+  app.append(howTo());
+  app.append(careerPanel());
+  const lvh=el('div','sechead','<h2>🎚️ Wähle in jedem Thema deinen Schwierigkeitsgrad</h2><p>Kein Niveau bringt mehr XP als ein anderes – entscheide also ehrlich, wie viel Hilfe du brauchst. Du kannst jederzeit wechseln.</p>');app.append(lvh);
+  const lv=el('div','levels');
+  ['a','m','e'].forEach(k=>lv.append(el('div','lvcard '+k,`<b>${LV[k].icon} ${LV[k].name}</b>${LV[k].desc}`)));
+  app.append(lv);
+  app.append(el('div','sechead','<h2 id="runden">🗺️ Deine Qualifikationsrunden</h2>'));
+  let g='';let grid;
+  TOPICS.forEach((t,idx)=>{
+    if(!grid){grid=el('div','grid');app.append(grid)}
+    const p=topicProgress(t);const l=state.lv[t.id];
+    const a=el('a','tcard');a.href='#t-'+t.id;
+    a.innerHTML=`${hasBadge(idx)?`<span class="bdg" title="${BADGES[idx].n}">${BADGES[idx].i}</span>`:''}<span class="nr">${idx+1}</span><span class="cat">${t.group}</span><h3>${t.title}</h3><p>${t.short}</p><div class="bar"><i style="width:${p.total?p.done/p.total*100:0}%"></i></div><div class="prog"><span>${p.done}/${p.total} Aufgaben${p.done?` · Ø ${p.avg} %`:''}</span>${l?`<span class="chip ${l}">${LV[l].icon} ${LV[l].name}</span>`:''}</div>`;
+    grid.append(a);
+  });
+  app.append(el('div','group','Finale'));
+  const tg=el('div','grid');const ta=el('a','tcard testcard');ta.href='#t-'+TEST.id;const tp=topicProgress(TEST);
+  ta.innerHTML=`${trophyOf(state.trophyPc)?`<span class="bdg">${trophyOf(state.trophyPc).i}</span>`:''}<span class="nr">🏆</span><h3>Finale: Abschlusstest</h3><p>${TEST.short}</p><div class="bar"><i style="width:${tp.total?tp.done/tp.total*100:0}%;background:var(--e)"></i></div><div class="prog"><span>${tp.done}/${tp.total} Aufgaben</span></div>`;
+  tg.append(ta);app.append(tg);
+  const rw=el('div','reset-wrap');
+  rw.append(el('p',null,'Dein Fortschritt wird nur in diesem Browser gespeichert.'),el('p',null,'<a href="#lehrkraft">🔒 Lehrkraft-Bereich</a>'));app.append(rw);
+}
+
+function nextTopic(){return TOPICS.find(t=>{const p=topicProgress(t);return !p.total||p.done<p.total})||TEST}
+function arenaHero(){
+  const x=totalXP();const nt=nextTopic();const started=x>0;
+  const s=el('section','arena');
+  s.innerHTML=`<div class="floaters" aria-hidden="true"><span>🎮</span><span>✒️</span><span>🏆</span><span>🔥</span><span>📜</span><span>⚡</span></div>
+  <div class="arena-in">
+    <div class="kick">Deutsch 10 · Season 1</div>
+    <h1>Willkommen in der <span>Sprach-Arena</span>!</h1>
+    <p class="lead">Kommas, das/dass, Groß und klein, indirekte Rede … klingt erst mal nach Pflichtprogramm. Hier wird daraus deine <b>E-Sport-Karriere</b>: Löse Aufgaben, sammle XP, schalte Abzeichen frei und kämpfe im Finale um Gold.</p>
+    <div class="stats"><div><b>10</b>Qualifikationsrunden</div><div><b>3</b>Schwierigkeitsgrade</div><div><b>10</b>Abzeichen</div><div><b>1</b>Finale</div></div>
+    <div class="ctas"><a class="play" href="#t-${nt.id}">▶ ${started?'Weiterspielen':'Karriere starten'}</a><span class="nxt">${started?`Nächste Runde: <b>${nt===TEST?'Finale':nt.title}</b>`:'Erste Runde: <b>'+TOPICS[0].title+'</b> – oder wähle unten selbst.'}</span></div>
+  </div>`;
+  return s;
+}
+function howTo(){
+  const s=el('section','howto');
+  s.innerHTML=`<div class="sechead"><h2>🕹️ So funktioniert’s</h2></div>
+  <div class="steps4">
+   <div><span class="n">1</span><b>Runde wählen</b>Suche dir oben in der Leiste oder unten ein Thema aus. Die Reihenfolge ist egal.</div>
+   <div><span class="n">2</span><b>Niveau festlegen</b>Anfänger, Mittelfeld oder Experte – je nachdem, wie viel Hilfe du brauchst.</div>
+   <div><span class="n">3</span><b>Aufgaben lösen</b>Lies den Infokasten, bearbeite die Aufgaben und klicke auf „Überprüfen“.</div>
+   <div><span class="n">4</span><b>Aufsteigen</b>Sammle XP und Abzeichen und hol dir im Finale deinen Pokal und die Siegerurkunde.</div>
+  </div>
+  <div class="xpbox">
+   <div class="xpicon">XP</div>
+   <div>
+    <h3>Was ist eigentlich XP?</h3>
+    <p><b>XP</b> steht für <b>Experience Points</b> – auf Deutsch <b>Erfahrungspunkte</b>. Du kennst das vielleicht aus Videospielen: Wer Aufgaben erledigt, sammelt Erfahrung und steigt dadurch im Level auf. Genauso funktioniert es hier:</p>
+    <ul>
+     <li>✅ <b>1. Versuch:</b> bis zu <b>100 XP</b> – je mehr richtig ist, desto mehr Punkte (z. B. 80 % richtig = 80 XP).</li>
+     <li>🔁 <b>2. Versuch:</b> Verbessere deine Antworten – für alles, was du verbesserst, gibt es noch <b>halbe Punkte</b> (z. B. 60 % → 100 % = +20 XP).</li>
+     <li>🔓 Die <b>Lösungen</b> siehst du erst nach dem 2. Versuch. Wer sie vorher aufdeckt, bekommt für diese Aufgabe keine weiteren XP.</li>
+     <li>📘 Danach kannst du weiter üben – aber ohne XP. Ehrlich währt am längsten!</li>
+     <li>🔥 <b>Combo:</b> Löst du drei Aufgaben hintereinander <b>auf Anhieb</b> zu 100 %, gibt es Bonus-XP obendrauf.</li>
+     <li>🏅 Schließt du ein Thema mit durchschnittlich mindestens 80 % ab, bekommst du ein <b>Abzeichen</b>.</li>
+     <li>🏆 Im <b>Finale</b> hat jede Aufgabe nur <b>einen</b> Versuch.</li>
+    </ul>
+    <div class="ladder">${RANKS.map((k,j)=>`<div><span>${k.i}</span><b>${k.n}</b><small>${k.x===0?'Start':'ab '+k.x.toLocaleString('de-DE')+' XP'}</small></div>${j<RANKS.length-1?'<i>›</i>':''}`).join('')}</div>
+   </div>
+  </div>`;
+  return s;
+}
+function careerPanel(){
+  const x=totalXP(),r=rankOf(x),nx=RANKS[r+1];const pct=nx?Math.round((x-RANKS[r].x)/(nx.x-RANKS[r].x)*100):100;
+  const tr=trophyOf(state.trophyPc);const n=TOPICS.filter((t,i)=>hasBadge(i)).length;
+  const c=el('section','career');
+  c.innerHTML=`<div><h2>Deine Karriere</h2><div class="rk">${RANKS[r].i}</div><div class="rn">${RANKS[r].n}</div><div class="xpline">${x} XP${nx?` · noch ${nx.x-x} XP bis ${nx.i} ${nx.n}`:' · Höchster Rang erreicht!'}</div><div class="bigbar"><i style="width:${pct}%"></i></div><div class="ranks">${RANKS.map((k,j)=>`<span class="${j===r?'cur':''}">${k.i} ${k.n}</span>`).join('')}</div>${(state.combo||0)>=1?`<p style="margin:.6rem 0 0;font-size:.85rem">🔥 Aktuelle Combo: ${state.combo} perfekte Aufgaben in Folge</p>`:''}</div>
+  <div><h2>Abzeichen (${n}/10) & Pokal</h2><div class="shelf">${TOPICS.map((t,i)=>`<a href="#t-${t.id}" class="badge ${hasBadge(i)?'':'off'}" style="color:inherit;text-decoration:none" title="${hasBadge(i)?'Freigeschaltet':'Thema '+(i+1)+' mit Ø 80 % abschließen'}"><span class="bi">${BADGES[i].i}</span>${BADGES[i].n}</a>`).join('')}<div class="badge trophy ${tr?'':'off'}"><span class="bi">${tr?tr.i:'🏆'}</span>${tr?tr.n:'Finale-Pokal'}</div></div>
+  <div class="cta">${tr?`<a class="btn" href="#urkunde" style="text-decoration:none">📜 Siegerurkunde öffnen</a>`:'<span>📜 Die Siegerurkunde gibt es nach dem Finale.</span>'}</div></div>`;
+  return c;
+}
+function badgeGoal(t){const ti=TOPICS.indexOf(t);const b=BADGES[ti];const got=hasBadge(ti);const p=topicProgress(t);
+  return `<div class="badgegoal ${got?'got':''}"><span class="bi">${got?b.i:'🔒'}</span><span>${got?`Abzeichen <b>${b.n}</b> freigeschaltet!`:`Abzeichen <b>${b.n}</b> ${b.i}: Bearbeite alle Aufgaben dieses Themas mit durchschnittlich mindestens 80 %.${p.done?` (bisher ${p.done}/${p.total}, Ø ${p.avg} %)`:''}`}</span></div>`}
+function renderCert(){
+  const app=$('#app');app.innerHTML='';const bk=el('a','back','← Zur Übersicht');bk.href='#';app.append(bk);
+  const tr=trophyOf(state.trophyPc);
+  if(!tr){app.append(el('div','pleasechoose',`Die Siegerurkunde gibt es, sobald du im <a href="#t-${TEST.id}">Finale</a> alle Aufgaben überprüft und mindestens 50 % erreicht hast.`));return}
+  const x=totalXP(),r=rankOf(x);const s=testSummary();
+  const c=el('div','cert');
+  c.innerHTML=`<div class="kicker">Deutsch 10 · Sprache & Rechtschreibung</div><h1>Siegerurkunde</h1><p>Hiermit wird bestätigt, dass</p>`;
+  const nm=el('input','nm');nm.placeholder='Dein Name';nm.value=state.name||'';nm.oninput=()=>{state.name=nm.value;save()};c.append(nm);
+  c.append(el('div',null,`<p>das Finale des Lernmoduls erfolgreich bestritten hat und folgende Auszeichnung erhält:</p><div class="tro">${tr.i}</div><h2>${tr.n}</h2>
+  <div class="facts"><div><b>${state.finalPc??state.trophyPc} %</b>Ergebnis im Finale</div><div><b>${RANKS[r].i} ${RANKS[r].n}</b>Karriere-Rang</div><div><b>${x} XP</b>Erfahrungspunkte</div><div><b>${TOPICS.filter((t,i)=>hasBadge(i)).length}/10</b>Abzeichen</div></div>
+  <div class="bdgs">${TOPICS.map((t,i)=>hasBadge(i)?BADGES[i].i:'').join('')}</div>
+  <table><tr><th>Thema</th><th>Niveau</th><th>Übung Ø</th><th>Lösungen aufgedeckt</th><th>Finale</th></tr>${s.rows.map(o=>{const l=state.lv[o.t.id];const p=topicProgress(o.t);return `<tr><td>${o.ti+1}. ${SHORT[o.ti]}</td><td>${l?LV[l].icon+' '+LV[l].name:'–'}</td><td>${p.done?p.avg+' %':'–'}</td><td>${revealCount(o.t)}</td><td>${o.pc==null?'–':o.pc+' %'}</td></tr>`}).join('')}</table>
+  <p style="font-size:.85rem;margin-top:.8rem">Finale geschrieben auf Niveau: <b>${LV[state.lv[TEST.id]||'m'].icon} ${LV[state.lv[TEST.id]||'m'].name}</b></p>
+  <div class="date">${new Date().toLocaleDateString('de-DE',{day:'numeric',month:'long',year:'numeric'})} · Prüfcode: <b style="font-family:monospace;letter-spacing:.05em">${makeCode()}</b></div>`));
+  app.append(c);app.append(el('p','sub','<span style="display:block;text-align:center;margin-top:1rem">Trage deinen Namen ein und mache einen Screenshot, um die Urkunde vorzuzeigen.</span>'));
+}
+
+/* ---------- Themenseite ---------- */
+function renderTopic(t){
+  const app=$('#app');app.innerHTML='';
+  const isTest=t===TEST;const idx=ALL().indexOf(t);
+  const bk=el('a','back','← Alle Themen');bk.href='#';app.append(bk);
+  app.append(el('h1',null,isTest?`🏆 Finale: ${t.title}`:`${idx+1}. ${t.title}`));
+  app.append(el('p','sub',t.short));
+  if(!isTest)app.append(el('div',null,badgeGoal(t)).firstElementChild);
+  const lv=state.lv[t.id];
+  const ch=el('div','chooser');ch.append(el('p',null,isTest?'Mit welchem Niveau möchtest du den Test schreiben?':'Wie sicher fühlst du dich bei diesem Thema? Wähle dein Niveau:'));
+  TESTHOOKS=[];const lockLv=isTest&&TEST.tasks.some((k,i)=>peekAtt(TEST,i).n>0);
+  const seg=el('div','seg');
+  ['a','m','e'].forEach(k=>{const b=el('button',k+(lv===k?' on':''),`${LV[k].icon} <b>${LV[k].name}</b><small>${LV[k].desc}</small>`);if(lockLv)b.disabled=true;b.onclick=()=>{state.lv[t.id]=k;save();renderTopic(t);setTimeout(()=>{const x=$('#tasks');if(x)x.scrollIntoView({block:'start'})},30)};seg.append(b)});
+  ch.append(seg);if(lockLv)ch.append(el('p','time','🔒 Das Niveau ist nach der ersten Abgabe festgelegt.'));app.append(ch);
+  const info=el('details','info');if(lv!=='e')info.open=true;
+  info.innerHTML=`<summary>Infokasten: Das musst du wissen${lv==='e'?' (zum Nachschlagen aufklappen)':''}</summary><div class="inner">${t.info}</div>`;
+  app.append(info);
+  if(!lv){app.append(el('div','pleasechoose','Wähle oben ein Niveau, dann erscheinen die Aufgaben.'));navFoot(app,idx);return}
+  if(lv==='a'&&t.steps)app.append(el('div','steps',`<b class="t">🌱 So gehst du Schritt für Schritt vor:</b>${t.steps}`));
+  const box=el('div');box.id='tasks';app.append(box);
+  visibleTasks(t,lv).forEach((o,n)=>{const holder=el('div');box.append(holder);renderTask(t,o.k,o.i,n+1,lv,holder)});
+  if(isTest)testResult(app,lv);
+  navFoot(app,idx);
+}
+function testResult(app,lv){
+  const r=el('div','result');app.append(r);
+  const draw=()=>{
+    const s=testSummary();const nDone=TEST.tasks.filter((k,i)=>peekAtt(TEST,i).n>0).length;
+    if(!testDone()){r.innerHTML=`<h2>Gesamtergebnis</h2><p>${nDone} von ${TEST.tasks.length} Aufgaben abgegeben. Dein Gesamtergebnis, dein Pokal und die Lösungen erscheinen, sobald alle Aufgaben abgegeben sind.</p><p class="time">🥇 Gold ab 85 % · 🥈 Silber ab 70 % · 🥉 Bronze ab 50 %</p>`;return}
+    const total=s.total;const prev=state.trophyPc;
+    if(state.finalPc==null){state.finalPc=total;if(trophyOf(total)){state.trophyPc=Math.max(prev||0,total);if(prev==null||trophyOf(prev)?.n!==trophyOf(total).n)toast(`${trophyOf(total).i} Du gewinnst den <b>${trophyOf(total).n}</b>!`,'trophy')}save();updateTop()}
+    const tr=trophyOf(total);
+    const msg=total>=90?'Hervorragend – du beherrschst alle Themen!':total>=75?'Sehr gut! Wiederhole gezielt die markierten Themen.':total>=50?'Ein solides Fundament. Arbeite die Themen mit 🔁 noch einmal durch.':'Nimm dir die Themen mit 🔁 noch einmal vor – am besten auf dem Niveau „Anfänger“.';
+    const rows=s.rows.map(o=>`<tr><td>${o.ti+1}. ${SHORT[o.ti]}</td><td>${o.pc==null?'–':o.pc+' %'}</td><td>${o.pc>=80?'✔ sicher':`<a href="#t-${o.t.id}">🔁 wiederholen</a>`}</td></tr>`).join('');
+    r.innerHTML=`<h2>Gesamtergebnis</h2><p><span class="big">${total} %</span><br><b>${msg}</b></p>${tr?`<p style="font-size:1.15rem"><span style="font-size:2.4rem">${tr.i}</span> <b>${tr.n}</b></p><p><a class="btn" style="background:var(--e);text-decoration:none" href="#urkunde">📜 Siegerurkunde öffnen</a></p>`:'<p>Für einen Pokal brauchst du mindestens 50 %. Wiederhole die markierten Themen – einen neuen Versuch im Finale kann deine Lehrkraft freigeben.</p>'}<p class="time">🥇 Gold ab 85 % · 🥈 Silber ab 70 % · 🥉 Bronze ab 50 % · Die Lösungen kannst du dir jetzt bei jeder Aufgabe über „👀 Lösung ansehen“ anzeigen lassen.</p><table><tr><th>Thema</th><th>Ergebnis</th><th></th></tr>${rows}</table>`;
+  };
+  draw();TESTHOOKS.push(draw);
+}
+function navFoot(app,idx){const L=ALL();const f=el('div','foot-nav');const p=L[idx-1],n=L[idx+1];f.innerHTML=(p?`<a href="#t-${p.id}">← ${p.title}</a>`:'<span></span>')+(n?`<a href="#t-${n.id}">${n.title} →</a>`:'<a href="#">Zur Übersicht →</a>');app.append(f)}
+
+function renderTask(t,task,i,n,lv,holder){
+  holder.innerHTML='';
+  const isTest=t===TEST;
+  const box=el('section','task');
+  const only=task.levels&&task.levels.length<3?`<span class="chip ${task.levels.length===1?task.levels[0]:'m'}">${task.levels.length===1?LV[task.levels[0]].icon+' nur '+LV[task.levels[0]].name:task.levels.map(l=>LV[l].name).join(' & ')}</span>`:'';
+  box.innerHTML=`<div class="thead"><span class="tnum">Aufgabe ${n}</span><span class="ttype">${TYPES[task.type]}</span>${task.topic!=null?`<span class="chip m">📚 Thema ${task.topic+1}: ${SHORT[task.topic]}</span>`:''}${only}<span class="tstat"></span></div><h3>${task.title}</h3>${task.prompt?`<p class="prompt">${task.prompt}</p>`:''}`;
+  const h=task.help&&task.help[lv];
+  if(h){if(lv==='a')box.append(el('div','help',`<b>🌱 Hilfe:</b> ${h}`));else{const d=el('details','help');d.innerHTML=`<summary>💡 Tipp anzeigen</summary><div>${h}</div>`;box.append(d)}}
+  const body=el('div','tbody'),actions=el('div','actions'),fb=el('div','fb');
+  box.append(body,actions,fb);holder.append(box);
+  const ctx={body,fb,uid:uid(),lv,isTest,note(html,cls){fb.className='fb show '+(cls||'mid');fb.innerHTML=html}};
+  const api=R[task.type](task,ctx,lv);
+  const stat=box.querySelector('.tstat');
+  function setStat(){const a=peekAtt(t,i);let s,c;
+    if(isTest){if(a.n){s=`✔ Abgegeben: ${Math.round(((state.sc[t.id]||{})[i]||0)*100)} %`;c='done'}else{s='⚠️ Nur ein Versuch';c='warn'}}
+    else if(a.n===0){s='🎯 1. Versuch: volle XP';c='first'}
+    else if(a.n===1&&!a.rev){s='🔁 2. Versuch: halbe XP für Verbesserungen';c='second'}
+    else{s='📘 Übungsmodus: keine XP mehr';c='none'}
+    stat.textContent=s;stat.className='tstat '+c}
+  setStat();
+  function lock(){body.classList.add('locked');body.querySelectorAll('input,select,textarea,button').forEach(x=>x.disabled=true)}
+  function solBtn(){if(actions.querySelector('.solview'))return;const b=el('button','btn ghost solview','👀 Lösung ansehen');b.onclick=()=>{api.reveal?api.reveal():api.check(true);b.remove()};actions.append(b)}
+  let revB=null;
+  function addReveal(){if(revB)return;revB=el('button','btn ghost',task.type==='write'?'🔓 Musterlösung aufdecken':'🔓 Lösung aufdecken');
+    revB.onclick=()=>{if(!revB.dataset.c){revB.dataset.c=1;revB.textContent='Sicher? Danach gibt es für diese Aufgabe keine XP mehr – nochmal klicken';return}
+      const a=att(t,i);a.rev=true;save();api.reveal?api.reveal():api.check(true);
+      ctx.note('🔓 Lösung aufgedeckt. Diese Aufgabe ist jetzt im Übungsmodus – es gibt keine weiteren XP dafür.','mid');revB.remove();revB=null;setStat()};
+    actions.append(revB)}
+  const a0=peekAtt(t,i);
+  if(isTest&&a0.n>0){lock();ctx.note(`✔ Bereits abgegeben (${Math.round(((state.sc[t.id]||{})[i]||0)*100)} %).`+(testDone()?'':' Die Lösungen kannst du ansehen, sobald alle Aufgaben abgegeben sind.'),'ok');if(testDone())solBtn();return}
+  const chk=el('button','btn',isTest?'✅ Abgeben':task.type==='write'?'Text prüfen':'Überprüfen');
+  chk.onclick=()=>{
+    const a=peekAtt(t,i);
+    if(isTest&&a.n>0)return;
+    if(isTest&&!chk.dataset.c){chk.dataset.c=1;chk.textContent='Wirklich abgeben? Danach kannst du nichts mehr ändern – nochmal klicken';return}
+    const show=!isTest&&(a.n+1>=2||a.rev);
+    const res=api.check(show);if(!res)return;
+    const f=res.f!=null?res.f:(res.tot?res.r/res.tot:0);
+    const out=award(t,i,f);
+    const pc=Math.round(f*100);
+    let msg=(pc===100?'🎉 Super, alles richtig! ':pc>=60?'👍 Gut! ':'🔁 Da geht noch was. ')+(res.r!=null?`(${res.r} von ${res.tot} richtig)`:`(${pc} %)`);
+    let info='';
+    if(isTest)info='Abgegeben. '+(testDone()?'Alle Aufgaben sind abgegeben – unten findest du dein Gesamtergebnis.':'Die Lösungen siehst du, wenn alle Aufgaben abgegeben sind.');
+    else if(out.mode==='first')info=`⭐ +${out.gained} XP im 1. Versuch.`+(pc<100?' Verbessere deine Antworten und prüfe ein zweites Mal – dafür gibt es noch halbe Punkte. Die Lösungen siehst du nach dem 2. Versuch.':'');
+    else if(out.mode==='second')info=`⭐ +${out.gained} XP im 2. Versuch (halbe Punkte für deine Verbesserung). Die Lösungen sind jetzt eingeblendet.`;
+    else info='📘 Übungsmodus – für diese Aufgabe gibt es keine weiteren XP.'+(show?' Die Lösungen sind eingeblendet.':'');
+    if(res.warn)info=res.warn+' '+info;
+    fb.className='fb show '+(pc===100?'ok':pc>=60?'mid':'bad');
+    fb.innerHTML=msg+`<div style="font-weight:400;margin-top:.3rem">${info}${res.extra?'<br>'+res.extra:''}</div>`;
+    setStat();
+    if(isTest){lock();chk.remove();document.querySelectorAll('.seg button').forEach(b=>b.disabled=true);TESTHOOKS.forEach(fn=>fn())}
+    else{if(show&&revB){revB.remove();revB=null}else if(!show)addReveal()}
+  };
+  actions.append(chk);
+  if(!isTest){
+    if(a0.n===1&&!a0.rev)addReveal();
+    const rs=el('button','btn ghost','Eingaben löschen');rs.onclick=()=>renderTask(t,task,i,n,lv,holder);actions.append(rs);
+  }else{TESTHOOKS.push(()=>{if(testDone()&&peekAtt(t,i).n>0)solBtn()})}
+}
+
+/* ---------- Aufgabentypen ---------- */
+const R={};
+
+R.mc=(task,c,lv)=>{
+  const qs=task.items.map((it,qi)=>{
+    const q=el('div','mcq');q.append(el('p','q',`${qi+1}. ${it.q}`));
+    const opts=el('div','opts');
+    it.o.forEach((o,j)=>{opts.append(el('label','opt',`<input type="radio" name="${c.uid}-${qi}" value="${j}"><span>${o}</span>`))});
+    q.append(opts);if(lv==='a'&&it.h)q.append(el('p','minihint','💡 '+it.h));
+    const x=el('p','expl');q.append(x);c.body.append(q);return{q,x,opts,it};
+  });
+  return{check(show){let r=0;qs.forEach(({q,x,opts,it})=>{const labs=[...opts.children];labs.forEach(l=>l.classList.remove('right','wrong'));const sel=q.querySelector('input:checked');const v=sel?+sel.value:-1;
+    if(v===it.c){labs[v].classList.add('right');r++;x.innerHTML='✔ Richtig. '+(it.x||'')}
+    else{if(v>=0)labs[v].classList.add('wrong');if(show)labs[it.c].classList.add('right');x.innerHTML=(v<0?'Nicht beantwortet. ':'✘ Leider falsch. ')+(show?(it.x||''):'')}});
+    return{r,tot:qs.length}}};
+};
+
+R.gap=(task,c,lv)=>{
+  const mode=lv==='a'?'select':lv==='m'?(task.mMode||'bank'):'input';
+  const gaps=[];
+  const html=task.text.replace(/\[\[(.+?)\]\]/g,(m,inner)=>{const parts=inner.split('|');const acc=parts[0].split('/');gaps.push({acc,opts:shuffle([acc[0],...parts.slice(1)])});return `<span class="gslot" data-g="${gaps.length-1}"></span>`});
+  if(mode==='bank'){const b=el('div','bank','<span class="lbl">Wortspeicher (anklicken setzt das Wort in das zuletzt gewählte Feld):</span>');shuffle(gaps.map(g=>g.acc[0])).forEach(w=>{const bt=el('button',null,w);bt.type='button';bt.onclick=()=>{const inp=c.last||c.body.querySelector('input.gap');if(inp){inp.value=w;bt.classList.add('used');const nx=[...c.body.querySelectorAll('input.gap')].find(x=>!x.value);if(nx){nx.focus();c.last=nx}}};b.append(bt)});c.body.append(b)}
+  const wrap=el('div','gaptext',html);c.body.append(wrap);
+  const inputs=gaps.map((g,gi)=>{const slot=wrap.querySelector(`[data-g="${gi}"]`);let inp;
+    if(mode==='select'){inp=el('select','gap');inp.append(el('option',null,'– wählen –'));inp.firstChild.value='';g.opts.forEach(o=>{const op=el('option',null,o);op.value=o;inp.append(op)})}
+    else{inp=el('input','gap');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.style.width=Math.max(5,Math.max(...g.opts.map(o=>o.length))+2)+'ch';inp.onfocus=()=>c.last=inp}
+    slot.replaceWith(inp);const sol=el('span','sol');inp.after(sol);return{inp,sol,g}});
+  return{check(show){let r=0;inputs.forEach(({inp,sol,g})=>{const v=inp.value.trim().replace(/\s+/g,' ');const ok=g.acc.includes(v);inp.classList.toggle('right',ok);inp.classList.toggle('wrong',!ok);sol.textContent=(!ok&&show)?'→ '+g.acc[0]:'';if(ok)r++});return{r,tot:inputs.length,extra:show?'':'Rot = noch falsch.'}}};
+};
+
+R.comma=(task,c,lv)=>{
+  const rows=task.items.map((it,si)=>{
+    const toks=it.s.split(' ');const sol=new Set();const words=toks.map((w,k)=>{if(w.endsWith(',')){sol.add(k);return w.slice(0,-1)}return w});
+    const row=el('div','csent');row.append(el('span','num',(si+1)+'.'));
+    const slots=[];
+    words.forEach((w,k)=>{row.append(el('span','cw',w));if(k<words.length-1){const s=el('button','slot');s.type='button';s.title='Komma setzen';s.onclick=()=>{s.classList.toggle('on');row.querySelectorAll('.slot').forEach(x=>x.classList.remove('ok','miss','extra'));slots.forEach(x=>{x.textContent=x.classList.contains('on')?',':''})};slots.push(s);row.append(s);row.append(document.createTextNode(' '))}});
+    if(lv!=='e')row.append(el('span','cnt',`(${sol.size} ${sol.size===1?'Komma':'Kommas'})`));
+    const mark=el('span','cmark');row.append(mark);
+    if(lv==='a'&&it.h)row.append(el('span','minihint cmark','💡 '+it.h));
+    c.body.append(row);return{slots,sol,mark};
+  });
+  return{check(show){let r=0;rows.forEach(({slots,sol,mark})=>{let good=true;slots.forEach((s,k)=>{const on=s.classList.contains('on'),should=sol.has(k);s.classList.remove('ok','miss','extra');s.textContent=on?',':'';
+      if(on&&should)s.classList.add('ok');else if(!on&&should){good=false;if(show){s.classList.add('miss');s.textContent=','}}else if(on&&!should){s.classList.add('extra');good=false}});
+      mark.innerHTML=good?'<span style="color:var(--ok)">✔ richtig</span>':show?'<span style="color:var(--bad)">✘ rot = fehlendes oder überflüssiges Komma</span>':'<span style="color:var(--bad)">✘ noch nicht richtig – rot = überflüssiges Komma; vielleicht fehlt auch noch eins</span>';if(good)r++});
+    return{r,tot:rows.length}}};
+};
+
+R.errors=(task,c,lv)=>{
+  const units=[];const re=/\{([^{}>]+)>([^{}|]+)\|([A-Z]+)\}/g;let last=0,m;
+  const pushPlain=s=>s.split(/\s+/).filter(Boolean).forEach(w=>units.push({t:w}));
+  while((m=re.exec(task.text))){pushPlain(task.text.slice(last,m.index));units.push({t:m[1],err:{r:m[2],cat:m[3]}});last=re.lastIndex}
+  pushPlain(task.text.slice(last));
+  const errs=units.filter(u=>u.err);
+  if(lv!=='e'){let h=`Im Text sind <b>${errs.length} Fehler</b> versteckt.`;if(lv==='a'){const cnt={};errs.forEach(u=>cnt[u.err.cat]=(cnt[u.err.cat]||0)+1);h+=' Fehlerarten: '+Object.keys(cnt).map(k=>`${CATS[k]} (${cnt[k]}×)`).join(', ')+'.'}c.body.append(el('div','help',h))}
+  const box=el('div','etext');
+  const spans=units.map(u=>{const s=el('span','unit',u.t);s.onclick=()=>{clear();s.classList.toggle('mk')};box.append(s,document.createTextNode(' '));return s});
+  function clear(){spans.forEach(s=>{s.classList.remove('found','missed','falsemk');const sp=s.querySelector('sup');if(sp)sp.remove()})}
+  c.body.append(box);
+  c.body.append(el('div','legend','<span>🟨 markiert</span><span style="color:var(--ok)">🟩 Fehler gefunden</span><span style="color:var(--warn)">🟧 Fehler übersehen (erst bei der Lösung)</span><span style="color:var(--bad)">🟥 war eigentlich richtig</span>'));
+  return{check(show){clear();let found=0,falsem=0;units.forEach((u,k)=>{const s=spans[k];const mk=s.classList.contains('mk');
+      if(u.err){if(mk){s.classList.add('found');s.append(el('sup',null,'→ '+u.err.r));found++}else if(show){s.classList.add('missed');s.append(el('sup',null,'→ '+u.err.r))}}
+      else if(mk){s.classList.add('falsemk');falsem++}});
+    return{r:Math.max(0,found-falsem),tot:errs.length,extra:`Gefunden: ${found} von ${errs.length}${falsem?` · ${falsem} richtige Wörter fälschlich markiert (zählt als Abzug)`:''}.`}}};
+};
+
+R.sort=(task,c,lv)=>{
+  const items=shuffle(task.items);
+  const rows=items.map(it=>{const row=el('div','srow');row.append(el('div','it',it.t));const pills=el('div','pills');const o={it,sel:-1};o.ps=task.cats.map((cat,ci)=>{const p=el('button','pill',cat);p.type='button';p.onclick=()=>{o.sel=ci;o.ps.forEach(x=>x.classList.remove('on','right','wrong','should'));p.classList.add('on')};pills.append(p);return p});row.append(pills);c.body.append(row);return o});
+  return{check(show){let r=0;rows.forEach(o=>{o.ps.forEach(x=>x.classList.remove('right','wrong','should'));if(o.sel===o.it.c){o.ps[o.sel].classList.add('right');r++}else{if(o.sel>=0)o.ps[o.sel].classList.add('wrong');if(show)o.ps[o.it.c].classList.add('should')}});return{r,tot:rows.length,extra:show?'Grün gestrichelt = richtige Lösung.':'Rot = falsch zugeordnet.'}}};
+};
+
+R.order=(task,c,lv)=>{
+  c.body.append(el('p','olabel','Deine Reihenfolge:'));
+  const ans=el('div','answer');c.body.append(ans);
+  c.body.append(el('p','olabel','Sätze zur Auswahl:'));
+  const pool=el('div','pool');c.body.append(pool);
+  const model=el('div');c.body.append(model);
+  const fixed=lv==='a'?1:0;
+  const mk=(txt,idx)=>{const b=el('button','piece',txt);b.type='button';b.dataset.i=idx;b.onclick=()=>{if(b.classList.contains('fixed'))return;ans.querySelectorAll('.piece').forEach(x=>x.classList.remove('right','wrong'));(b.parentNode===pool?ans:pool).append(b)};return b};
+  for(let k=0;k<fixed;k++){const b=mk(task.pieces[k],k);b.classList.add('fixed');ans.append(b)}
+  const rest=task.pieces.map((p,k)=>({p,k})).slice(fixed);let sh=shuffle(rest);if(sh.every((o,j)=>o.k===rest[j].k)&&sh.length>1)sh.reverse();
+  sh.forEach(o=>pool.append(mk(o.p,o.k)));
+  const showModel=()=>{model.innerHTML=`<div class="model"><b>Richtige Reihenfolge:</b><ol style="margin:.3rem 0 0;padding-left:1.2rem">${task.pieces.map(p=>`<li>${p}</li>`).join('')}</ol></div>`};
+  return{check(show){const ps=[...ans.querySelectorAll('.piece')];if(pool.children.length){c.note('Ordne zuerst alle Sätze ein.');return null}let r=0;ps.forEach((p,k)=>{const ok=+p.dataset.i===k;p.classList.toggle('right',ok);p.classList.toggle('wrong',!ok);if(ok)r++});if(show)showModel();return{r,tot:ps.length}},reveal:showModel};
+};
+
+const norm=(s,keepComma)=>s.toLowerCase().replace(/[„“"‚‘'»«]/g,'').replace(keepComma?/[.!?:;]/g:/[.,!?:;]/g,' ').replace(/\s*,\s*/g,', ').replace(/\s+/g,' ').trim();
+R.transform=(task,c,lv)=>{
+  const rows=task.items.map((it,k)=>{const d=el('div','titem');d.append(el('div','src',`${k+1}. ${it.src}`));if(lv==='a'&&it.h)d.append(el('p','minihint','💡 '+it.h));const inp=el('input','tin');inp.type='text';inp.placeholder='Deine Lösung …';inp.spellcheck=false;d.append(inp);const res=el('div');d.append(res);c.body.append(d);return{it,inp,res}});
+  return{check(show){let r=0;rows.forEach(({it,inp,res})=>{const v=norm(inp.value,task.strictPunct);const ok=!!v&&it.acc.some(a=>norm(a,task.strictPunct)===v);inp.classList.toggle('right',ok);inp.classList.toggle('wrong',!ok);
+      res.innerHTML=ok||!show?'':`<div class="model"><b>Mögliche Lösung:</b> ${it.acc[0]}${it.acc.length>1?'<br><b>oder:</b> '+it.acc[1]:''}<br><small>Weicht deine Lösung nur in der Wortstellung ab, kann sie trotzdem richtig sein – vergleiche genau.</small></div>`;if(ok)r++});
+    return{r,tot:rows.length,extra:show?'':'Gelb = stimmt noch nicht mit einer erwarteten Lösung überein. Prüfe Konjunktiv, Pronomen und Kommas.'}}};
+};
+
+function stats(text){const t=text.replace(/\s+/g,' ').trim();if(!t)return{words:0,sent:[],longest:0,avg:0,commas:0};const sent=t.split(/(?<=[.!?])\s+/).filter(Boolean).map(s=>({s,w:s.split(' ').filter(w=>/[A-Za-zÄÖÜäöüß0-9]/.test(w)).length}));const words=sent.reduce((a,b)=>a+b.w,0);return{words,sent,longest:Math.max(...sent.map(x=>x.w)),avg:Math.round(words/sent.length*10)/10,commas:(t.match(/,/g)||[]).length}}
+function lcs(a,b){const n=a.length,m=b.length;const d=Array.from({length:n+1},()=>new Int16Array(m+1));for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)d[i][j]=a[i]===b[j]?d[i+1][j+1]+1:Math.max(d[i+1][j],d[i][j+1]);const keepA=new Set();let i=0,j=0;while(i<n&&j<m){if(a[i]===b[j]){keepA.add(i);i++;j++}else if(d[i+1][j]>=d[i][j+1])i++;else j++}return{len:d[0][0],keepA}}
+const toks=s=>s.toLowerCase().replace(/[.,!?;:„“"()–-]/g,' ').split(/\s+/).filter(Boolean);
+R.write=(task,c,lv)=>{
+  if(task.source&&!task.prefill)c.body.append(el('div','src src-src',task.source));
+  const ta=el('textarea');ta.placeholder='Schreibe hier …';if(task.prefill)ta.value=task.source;
+  function ins(s){const p=ta.selectionStart??ta.value.length;ta.value=ta.value.slice(0,p)+s+ta.value.slice(p);ta.focus();ta.selectionStart=ta.selectionEnd=p+s.length}
+  if(task.bank&&lv!=='e'){const b=el('div','bank','<span class="lbl">Wortspeicher:</span>');task.bank.forEach(w=>{const bt=el('button',null,w);bt.type='button';bt.onclick=()=>ins(w+' ');b.append(bt)});c.body.append(b)}
+  if(task.starters&&lv==='a'){const s=el('div','starters');task.starters.forEach(w=>{const bt=el('button',null,w);bt.type='button';bt.onclick=()=>ins((ta.value&&!/\n$/.test(ta.value)?'\n':'')+w.replace(/ …$/,' '));s.append(bt)});c.body.append(s)}
+  c.body.append(ta);
+  const ana=el('div'),chk=el('div','check'),model=el('div');c.body.append(ana,chk,model);
+  const showModel=()=>{if(task.model)model.innerHTML=`<div class="model"><b>Musterlösung</b> (eine von vielen Möglichkeiten):<br>${task.model.replace(/\n/g,'<br>')}</div>`};
+  return{check(show){
+    const st=stats(ta.value);const li=[];
+    li.push(['inf',`${st.words} Wörter, ${st.sent.length} Sätze, durchschnittlich ${st.avg||0} Wörter pro Satz`]);
+    if(task.minWords)li.push([st.words>=task.minWords?'ok':'no',`Mindestens ${task.minWords} Wörter`]);
+    if(task.maxLen){const long=st.sent.filter(x=>x.w>task.maxLen);li.push([long.length?'no':'ok',long.length?`${long.length} Satz/Sätze länger als ${task.maxLen} Wörter (längster: ${st.longest}) – noch kürzen!`:`Kein Satz länger als ${task.maxLen} Wörter`])}
+    const low=' '+ta.value.toLowerCase().replace(/[.,!?;:„“"()]/g,' ')+' ';
+    if(task.minConnectors){const found=CONNECTORS.filter(k=>low.includes(' '+k+' '));li.push([found.length>=task.minConnectors?'ok':'no',`Mindestens ${task.minConnectors} verschiedene Konnektoren (gefunden: ${found.length?found.join(', '):'keine'})`])}
+    if(task.maxRepeat){const nn=(ta.value.toLowerCase().match(new RegExp(task.maxRepeat.word.replace('-','\\-'),'g'))||[]).length;li.push([nn<=task.maxRepeat.max?'ok':'no',`„E-Sport“ kommt ${nn}-mal vor (Ziel: höchstens ${task.maxRepeat.max})`])}
+    if(task.minKonj){const f=KONJ.filter(k=>low.includes(' '+k+' '));li.push([f.length>=task.minKonj?'ok':'no',`Konjunktivformen (mind. ${task.minKonj}): ${f.length?f.join(', '):'keine gefunden'}`])}
+    if(task.noQuotes){const q=/[„“"]/.test(ta.value);li.push([q?'no':'ok',q?'Es stehen noch Anführungszeichen im Text – indirekte Rede braucht keine.':'Keine Anführungszeichen (gut für indirekte Rede)'])}
+    if(task.minCommas)li.push([st.commas>=task.minCommas?'ok':'no',`Kommas im Text: ${st.commas||0} (erwartet: mind. ${task.minCommas})`]);
+    if(task.mustInclude)task.mustInclude.forEach(w=>{const has=low.includes(' '+w.toLowerCase()+' ');li.push([has?'ok':'no',`enthält „${w}“`])});
+    ana.className='analysis';ana.innerHTML='<b>Automatische Rückmeldung</b><ul>'+li.map(([k,v])=>`<li class="${k}">${v}</li>`).join('')+'</ul>';
+    if(task.checklist&&!chk.innerHTML)chk.innerHTML='<b>Selbstcheck – hake ab, was zutrifft:</b>'+task.checklist.map(x=>`<label><input type="checkbox"> ${x}</label>`).join('');
+    const auto=li.filter(x=>x[0]!=='inf');const okc=auto.filter(x=>x[0]==='ok').length;
+    let f=auto.length?okc/auto.length:1,warn='';
+    if(task.model){const mt=toks(task.model);const sim=lcs(toks(ta.value),mt).len/mt.length;if(sim>=0.6){f=0;warn='⚠️ Dein Text stimmt größtenteils mit der Musterlösung überein – dafür gibt es keine XP. Formuliere selbst!'}}
+    if(task.prefill&&toks(ta.value).join(' ')===toks(task.source).join(' ')){f=0;warn='⚠️ Du hast den Text noch nicht verändert.'}
+    if(show)showModel();
+    return{r:f===0&&warn?0:okc,tot:auto.length||1,f,warn,extra:'Nutze zusätzlich den Selbstcheck.'}},
+    reveal:showModel};
+};
+
+R.fix=(task,c,lv)=>{
+  const ta=el('textarea');ta.value=task.start;ta.spellcheck=false;c.body.append(ta);
+  const out=el('div'),sol=el('div');c.body.append(out,sol);
+  const tg=task.target.split(/\s+/);const st=task.start.split(/\s+/);const totalErr=Math.max(1,Math.max(st.length,tg.length)-lcs(st,tg).len);
+  const showSol=()=>{sol.innerHTML=`<div class="model"><b>Lösung:</b><br>${task.target}</div>`};
+  return{check(show){const u=ta.value.trim().split(/\s+/);const {len,keepA}=lcs(u,tg);const diffs=Math.max(u.length-len,tg.length-len);const fixed=Math.max(0,totalErr-diffs);
+    if(lv==='a'&&diffs)out.innerHTML='<p class="olabel">Rot markiert = hier stimmt noch etwas nicht:</p><div class="diff">'+u.map((w,k)=>keepA.has(k)?w:`<span class="x">${w}</span>`).join(' ')+'</div>';else out.innerHTML='';
+    if(show)showSol();
+    return{r:diffs?fixed:totalErr,tot:totalErr,extra:diffs?`Es gibt noch ${diffs} ${diffs===1?'Stelle':'Stellen'}, die nicht stimmen.`:'Der Text ist fehlerfrei!'}},
+    reveal:showSol};
+};
+
+/* ---------- Lehrkraft-Bereich ---------- */
+const LEHRER_CODE='arena2026';
+let teacherOK=false;
+function makeCode(){const xp=Math.min(9999,totalXP()),pc=state.trophyPc||0,b=TOPICS.filter((t,i)=>hasBadge(i)).length,lv=['a','m','e'].indexOf(state.lv[TEST.id]||'m'),rv=Math.min(99,revealCount());const n=((((xp*101+pc)*11+b)*3+Math.max(0,lv))*100+rv);const v=n*9973+(n%9973);return v.toString(36).toUpperCase().replace(/(.{4})(?=.)/g,'$1-')}
+function readCode(code){const v=parseInt(code.replace(/[^0-9a-z]/gi,'').toLowerCase(),36);if(!isFinite(v))return null;const n=Math.floor(v/9973);if(v%9973!==n%9973)return null;let x=n;const rv=x%100;x=Math.floor(x/100);const lv=x%3;x=Math.floor(x/3);const b=x%11;x=Math.floor(x/11);const pc=x%101;const xp=Math.floor(x/101);return{xp,pc,b,lv:['a','m','e'][lv],rv}}
+function revealCount(t){let c=0;Object.entries(state.at||{}).forEach(([id,o])=>{if(t&&id!==t.id)return;Object.values(o).forEach(a=>{if(a.rev)c++})});return c}
+function renderTeacher(){
+  const app=$('#app');app.innerHTML='';const bk=el('a','back','← Zur Übersicht');bk.href='#';app.append(bk);
+  app.append(el('h1',null,'🔒 Lehrkraft-Bereich'));
+  if(!teacherOK){const f=el('div','chooser','<p>Bitte Lehrkraft-Code eingeben:</p>');const i=el('input','tin');i.type='password';i.style.maxWidth='280px';const b=el('button','btn','Entsperren');b.style.marginLeft='.5rem';const m=el('p','time');
+    b.onclick=()=>{if(i.value.trim()===LEHRER_CODE){teacherOK=true;renderTeacher()}else m.textContent='Falscher Code.'};i.onkeydown=e=>{if(e.key==='Enter')b.click()};f.append(i,b,m);app.append(f);return}
+  const d=el('div','task');d.innerHTML='<h3>Prüfcode einer Urkunde lesen</h3><p class="prompt">Gib den Prüfcode von der Urkunde ein. Stimmen die Werte nicht mit der Urkunde überein, wurde sie verändert.</p>';
+  const i=el('input','tin');i.placeholder='z. B. AB12-CD34-EF';const b=el('button','btn','Prüfen');const out=el('div','analysis');out.style.display='none';
+  b.onclick=()=>{const r=readCode(i.value);out.style.display='block';out.innerHTML=r?`<b>✔ Gültiger Code</b><ul><li class="inf">Finale: ${r.pc} % (Niveau: ${LV[r.lv].name})</li><li class="inf">XP: ${r.xp}</li><li class="inf">Abzeichen: ${r.b}/10</li><li class="inf">Aufgedeckte Lösungen: ${r.rv}</li></ul>`:'<b style="color:var(--bad)">✘ Ungültiger Code</b> – vermutlich abgetippt mit Fehler oder verändert.'};
+  d.append(i,el('div','actions'));d.lastChild.append(b);d.append(out);app.append(d);
+  const r=el('div','task');r.innerHTML='<h3>Auf diesem Gerät zurücksetzen</h3><p class="prompt">Nur für Lehrkräfte: z. B. wenn ein Schüler das Finale wiederholen darf oder ein neuer Schüler an diesem Gerät arbeitet.</p>';
+  const a=el('div','actions');
+  const b1=el('button','btn ghost','Finale zurücksetzen');b1.onclick=()=>{if(!b1.dataset.c){b1.dataset.c=1;b1.textContent='Wirklich? Nochmal klicken';return}delete state.sc[TEST.id];if(state.at)delete state.at[TEST.id];delete state.lv[TEST.id];delete state.finalPc;save();updateTop();b1.textContent='✔ Finale zurückgesetzt'};
+  const b2=el('button','btn ghost','Gesamten Fortschritt löschen');b2.onclick=()=>{if(!b2.dataset.c){b2.dataset.c=1;b2.textContent='Wirklich ALLES löschen? Nochmal klicken';return}state={lv:{},sc:{},at:{}};save();updateTop();b2.textContent='✔ Alles gelöscht'};
+  a.append(b1,b2);r.append(a);app.append(r);
+}
+
+route();
+</script>
+</body>
+</html>
